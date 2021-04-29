@@ -1,0 +1,240 @@
+html,
+body,
+main {
+    margin: 0px;
+    padding: 0px;
+    overflow: hidden;
+    height: 100%;
+}
+
+#top-app-bar-padding {
+    height: 64px;
+}
+
+#page {
+    box-sizing: border-box;
+}
+
+#page>div {
+    margin: 8px;
+}
+
+#countingPage {
+    flex-direction: column;
+    align-items: center;
+    overflow: auto;
+    height: 100%;
+}
+
+#countingPage>.mdc-card,
+#history>.mdc-card {
+    padding: 4px;
+    width: 100%;
+    flex: 0 0 auto;
+}
+
+#countingPage>.mdc-card>* {
+    margin: 4px;
+}
+
+.personCounterRow {
+    display: flex;
+    flex-direction: row;
+}
+
+.personCounter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 8px;
+    max-width: 480px;
+}
+
+.personDetails {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1 0 auto;
+}
+
+.avatar {
+    font-size: 32px;
+}
+
+
+.counterFab {
+    width: 32px;
+    height: 32px;
+}
+
+.fabDeselected {
+    background-color: #000;
+}
+
+.grid {
+    display: grid;
+    gap: 8px;
+    justify-items: end;
+    align-items: center;
+}
+
+.arrowFab3 {
+    grid-column-start: 4;
+    grid-row-start: 1;
+}
+
+.totalPoints,
+.averagePoints {
+    font-weight: bold;
+}
+
+.newPoints {
+    font-size: 24px;
+    flex: 1 0 auto;
+    text-align: center;
+}
+
+#targetName {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#targetNameGroup {
+    display: flex;
+    flex-direction: row;
+}
+
+.targetNavigationButton {
+    line-height: inherit;
+    margin-left: 8px;
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+#previousTarget {
+    visibility: hidden;
+}
+
+.blueprint {
+    display: none !important;
+}
+
+.mdc-drawer,
+.mdc-drawer-scrim {
+    display: flex;
+}
+
+.mdc-list-item--activated {
+    color: var(--mdc-theme-primary, #6200ee) !important;
+}
+
+.mdc-drawer .mdc-list-item {
+    font-family: Roboto, sans-serif;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-size: .875rem;
+    line-height: 1.375rem;
+    font-weight: 500;
+    letter-spacing: .0071428571em;
+    text-decoration: inherit;
+    text-transform: inherit;
+    height: 40px;
+    margin: 8px;
+    padding: 0 8px;
+    align-items: center;
+}
+
+.mdc-list-item__graphic {
+    margin-right: 32px;
+}
+
+.page {
+    display: none;
+}
+
+.roundName {
+    font-weight: bold;
+}
+
+.roundTotalPoints {
+    font-weight: bold;
+}
+
+.roundTotalTargets,
+.roundTotalTime {
+    font-style: italic;
+}
+
+.roundGrid {
+    display: grid;
+    justify-items: left;
+    gap: 4px 8px;
+    align-items: center;
+    grid-auto-flow: row;
+    grid-template-columns: auto auto auto auto;
+}
+
+.roundGrid>.avatar {
+    font-size: 24px;
+}
+
+.roundOverview {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+    max-width: 480px;
+}
+
+#editRoundButton {
+    align-self: flex-start;
+}
+
+#history {
+    flex-direction: column;
+    align-items: center;
+}
+
+#addRound {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+}
+
+.mdc-text-field__affix {
+    opacity: 1;
+}
+
+#newRoundDialogContent {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#newRoundDialogContent>label {
+    margin-bottom: 12px;
+}
+
+#newRoundDialogContent .mdc-text-field {
+    width: 100%;
+}
+
+#newRoundDialogButtons {
+    margin-top: 4px;
+    align-self: flex-end;
+}
+
+#saveCurrentRound {
+    display: none;
+    position: fixed;
+    bottom: 16px;
+}
+
+#saveCurrentRoundSpaceBehind {
+    display: none;
+    height: 68px;
+    min-height: 68px;
+    flex: 0 0 auto;
+}

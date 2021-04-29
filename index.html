@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Count-It</title>
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+
+<body>
+
+    <aside id="drawer" class="mdc-drawer mdc-drawer--modal">
+        <div class="mdc-drawer__content">
+            <nav class="mdc-list">
+                <a id="currentRoundButton" class="mdc-list-item mdc-list-item--activated" tabindex="0">
+                    <span class="mdc-list-item__ripple"></span>
+                    <i class="material-icons mdc-list-item__graphic">hiking</i>
+                    <span class="mdc-list-item__text">Current Round</span>
+                </a>
+                <a id="previousRoundsButton" class="mdc-list-item">
+                    <span class="mdc-list-item__ripple"></span>
+                    <i class="material-icons mdc-list-item__graphic">history</i>
+                    <span class="mdc-list-item__text">Previous Rounds</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+    <div id="drawerScrim" class="mdc-drawer-scrim"></div>
+
+
+    <header class=" mdc-top-app-bar">
+        <div class="mdc-top-app-bar__row">
+            <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+                <button id="menu"
+                    class="mdc-icon-button material-icons mdc-top-app-bar__navigation-icon--unbounded">menu</button>
+                <!-- <span class="mdc-top-app-bar__title">Count-It</span> -->
+            </section>
+            <div class="mdc-top-app-bar__section">
+                <div id="targetName" class="mdc-top-app-bar__title">
+                    <div id="targetNameGroup" class="page currentRoundButton">
+                        <div id="previousTarget" class="material-icons targetNavigationButton">arrow_back_ios_new</div>
+                        <div id="currentTargetLabel">Target 1</div>
+                        <div id="nextTarget" class="material-icons targetNavigationButton">arrow_forward_ios</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="mdc-top-app-bar--fixed-adjust" id="page">
+        <div id="countingPage" class="page currentRoundButton">
+
+            <div id="personCounterBlueprint" class="mdc-card personCounter blueprint">
+                <div class="personDetails">
+                    <span class="material-icons avatar">face</span>
+                    <span class="name">Astrid</span>
+                    <span class="totalPoints">300</span>
+                    <span>Ø<span class="averagePoints">14,94</span></span>
+                </div>
+
+                <span class="newPoints">+16</span>
+
+                <div class="grid">
+                    <span class="label">Arrow: </span>
+                    <button class="mdc-fab counterFab">
+                        <span class="mdc-fab__icon arrowFab1">1</span>
+                    </button>
+                    <button class="mdc-fab counterFab arrowFab2 fabDeselected">
+                        <span class="mdc-fab__icon">2</span>
+                    </button>
+                    <button class="mdc-fab counterFab arrowFab3 fabDeselected">
+                        <span class="mdc-fab__icon">3</span>
+                    </button>
+                    <span class="label">Zone: </span>
+                    <button class="mdc-fab counterFab zoneFab1 fabDeselected">
+                        <span class="mdc-fab__icon">1</span>
+                    </button>
+                    <button class="mdc-fab counterFab zoneFab2">
+                        <span class="mdc-fab__icon">2</span>
+                    </button>
+                    <button class="mdc-fab counterFab zoneFab3 fabDeselected">
+                        <span class="mdc-fab__icon">3</span>
+                    </button>
+                </div>
+            </div>
+
+            <button id="saveCurrentRound" class="mdc-button mdc-button--raised">
+                <span class="mdc-button__label">Beenden</span>
+            </button>
+            <div id="saveCurrentRoundSpaceBehind"> </div>
+        </div>
+        <div id="history" class="page previousRoundsButton">
+            <div id="roundOverviewBlueprint" class="mdc-card roundOverview blueprint">
+
+                <div class="personDetails">
+                    <span class="roundDate">25.04.2021</span>
+                    <span class="roundName">Springfield</span>
+                    <span class="roundTotalTargets">30 Targets</span>
+                    <span class="roundTotalTime">3h 25min</span>
+                </div>
+
+                <div class="roundGrid">
+                    <div class="material-icons avatar">face</div>
+                    <div class="mdc-fab__icon roundPersonName">Mary</div>
+                    <div class="mdc-fab__icon roundTotalPoints">300</div>
+                    <div class="mdc-fab__icon roundAveragePoints">Ø14,94</div>
+                </div>
+                <button id="editRoundButton" class="mdc-icon-button material-icons">more_vert</button>
+
+            </div>
+
+            <button id="addRound" class="mdc-fab">
+                <div class=" mdc-fab__ripple">
+                </div>
+                <span class="mdc-fab__icon material-icons">add</span>
+            </button>
+        </div>
+        <div id="newRoundDialog" class="mdc-dialog mdc-dialog--open">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <h2 class="mdc-dialog__title" id="my-dialog-title">New Round</h2>
+                    <div id="newRoundDialogContent" class="mdc-dialog__content" id="my-dialog-content">
+
+                        Name:
+                        <label class="mdc-text-field mdc-text-field--outlined">
+                            <span class="mdc-notched-outline">
+                                <span class="mdc-notched-outline__leading"></span>
+                                <span class="mdc-notched-outline__notch">
+                                </span>
+                                <span class="mdc-notched-outline__trailing"></span>
+                            </span>
+                            <span id="datePrefix"
+                                class="mdc-text-field__affix mdc-text-field__affix--prefix">01.04.2021: </span>
+                            <input id="newRoundName" type="text" class="mdc-text-field__input">
+                        </label>
+
+                        Number of Targets:
+                        <label class="mdc-text-field mdc-text-field--outlined">
+                            <span class="mdc-notched-outline">
+                                <span class="mdc-notched-outline__leading"></span>
+                                <span class="mdc-notched-outline__notch">
+                                </span>
+                                <span class="mdc-notched-outline__trailing"></span>
+                            </span>
+                            <input id="newRoundTargets" type="number" class="mdc-text-field__input">
+                        </label>
+
+                        Persons (e.g.: Susan, John, Mary)
+                        <label class="mdc-text-field mdc-text-field--outlined">
+                            <span class="mdc-notched-outline">
+                                <span class="mdc-notched-outline__leading"></span>
+                                <span class="mdc-notched-outline__notch">
+                                </span>
+                                <span class="mdc-notched-outline__trailing"></span>
+                            </span>
+                            <input id="newRoundPersons" type="text" class="mdc-text-field__input">
+                        </label>
+                        <div id="newRoundDialogButtons">
+                            <button id="cancelNewRound" class="mdc-button mdc-dialog__button">
+                                <div class="mdc-button__ripple"></div>
+                                <span class="mdc-button__label">Cancel</span>
+                            </button>
+                            <button id="startNewRound" class="mdc-button mdc-dialog__button">
+                                <div class="mdc-button__ripple"></div>
+                                <span class="mdc-button__label">Start</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim"></div>
+        </div>
+
+
+    </main>
+</body>
+<script src="person.js"></script>
+<script src="round.js"></script>
+<script src="index.js"></script>
+
+</html>
