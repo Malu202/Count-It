@@ -46,6 +46,7 @@ class Person {
                 }
 
                 self.recalculatePoints();
+                currentRound.saveAsActive();
             });
         });
     }

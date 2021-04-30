@@ -97,6 +97,17 @@ function loadPreviousRounds() {
 }
 loadPreviousRounds();
 
+function loadCurrentRound() {
+    let currentRoundString = localStorage.getItem(CURRENT_ROUND_STORAGE_ID);
+    if (currentRoundString != null) {
+        document.getElementById("currentRoundButton").click();
+        currentRound = createRoundFromString(currentRoundString);
+        currentRound.createActiveRoundElements();
+        setTimeout(function () { currentRound.recalculatePoints(); }, 0);
+    }
+}
+loadCurrentRound();
+
 datePrefix.innerText = (new Date()).toLocaleDateString();
 addRoundButton.addEventListener("click", function () {
     newRoundDialog.classList.add("mdc-dialog--open");
@@ -142,7 +153,6 @@ saveCurrentRoundButton.addEventListener("click", function () {
     copyTextToClipboard(currentRoundString);
     window.location.reload(false);
     // document.getElementById("previousRoundsButton").click();
-
 });
 
 

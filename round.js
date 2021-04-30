@@ -1,5 +1,7 @@
 const PREVIOUS_ROUNDS_STORAGE_SEPERATOR = ";.-@/*+#";
 const PREVIOUS_ROUNDS_STORAGE_ID = "savedRounds";
+const CURRENT_ROUND_STORAGE_ID = "savedCurrentRound";
+
 let roundOverviewBlueprint = document.getElementById("roundOverviewBlueprint");
 let historyPage = document.getElementById("history");
 
@@ -8,7 +10,7 @@ let historyPage = document.getElementById("history");
 class Round {
     constructor(date, name, persons, numberOfTargets) {
         this.date = date;
-        this.name = name;
+        this.name = name.replace(PREVIOUS_ROUNDS_STORAGE_SEPERATOR, "");
         this.persons = persons;
         this.numberOfTargets = numberOfTargets;
     }
@@ -27,8 +29,8 @@ class Round {
 
         this.grid = this.overviewElement.getElementsByClassName("roundGrid")[0];
 
+        this.recalculatePoints(true);
         for (let i = this.persons.length - 1; i >= 0; i--) {
-            this.persons[i].recalculatePoints(true);
 
             let avatar = this.grid.getElementsByClassName("avatar")[0].cloneNode(true);
             let name = this.grid.getElementsByClassName("roundPersonName")[0].cloneNode(true);
@@ -50,6 +52,11 @@ class Round {
         historyPage.appendChild(this.overviewElement);
         // this.addButtonEvents();
     }
+    recalculatePoints(roundFinished) {
+        for (let i = this.persons.length - 1; i >= 0; i--) {
+            this.persons[i].recalculatePoints(roundFinished);
+        }
+    }
     createActiveRoundElements() {
         this.persons.forEach(function (person) { person.addOverview(); });
     }
@@ -67,6 +74,12 @@ class Round {
             previous += PREVIOUS_ROUNDS_STORAGE_SEPERATOR;
             localStorage.setItem(PREVIOUS_ROUNDS_STORAGE_ID, previous + this.toString());
         }
+        localStorage.removeItem(CURRENT_ROUND_STORAGE_ID);
+    }
+    saveAsActive() {
+        console.log("saving active round")
+        localStorage.setItem(CURRENT_ROUND_STORAGE_ID, this.toString());
+        let a = 0;
     }
     toString() {
         let outputString = "";
@@ -107,7 +120,7 @@ function createRoundFromString(string) {
     for (let i = 0; i < personNames.length; i++) {
         let personPoints = [];
         for (let j = 0; j < points.length; j++) {
-            personPoints.push(parseInt(points[j][i]));
+            if (!points[j][i].includes("undefined")) personPoints.push(parseInt(points[j][i]));
         }
         let personName = personNames[i];
         if (personName.substring(0, 1) == " ") personName = personName.substring(1);
