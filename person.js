@@ -49,7 +49,7 @@ class Person {
             });
         });
     }
-    recalculatePoints() {
+    recalculatePoints(roundFinished) {
         let arrow = null;
         let zone = null;
         [].forEach.call(this.overviewElement.getElementsByClassName("counterFab"), function (fab, i) {
@@ -72,6 +72,7 @@ class Person {
             if (this.pointsArray[i] != 0) lastNonZeroTarget = i;
         }
         let average = totalPoints / (lastNonZeroTarget + 1);
+        if (roundFinished) average = totalPoints / this.numberOfTargets;
         this.overviewElement.getElementsByClassName("averagePoints")[0].innerText = round(average, 2);
 
 

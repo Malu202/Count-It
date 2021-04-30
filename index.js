@@ -117,6 +117,7 @@ startNewRoundButton.addEventListener("click", function () {
         if (personNames[i].substring(0, 1) == " ") personNames[i] = personNames[i].substring(1);
     }
     personNames.sort();
+    personNames.reverse();
     let personsValid = personNames.length > 0;
 
     if (nameValid && targetsValid && personsValid) {

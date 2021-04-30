@@ -27,8 +27,8 @@ class Round {
 
         this.grid = this.overviewElement.getElementsByClassName("roundGrid")[0];
 
-        for (let i = 0; i < this.persons.length; i++) {
-            this.persons[i].recalculatePoints();
+        for (let i = this.persons.length - 1; i >= 0; i--) {
+            this.persons[i].recalculatePoints(true);
 
             let avatar = this.grid.getElementsByClassName("avatar")[0].cloneNode(true);
             let name = this.grid.getElementsByClassName("roundPersonName")[0].cloneNode(true);
@@ -37,7 +37,7 @@ class Round {
 
             name.innerText = this.persons[i].name;
             points.innerText = this.persons[i].totalPoints;
-            average.innerText = "Ø" + this.persons[i].average;
+            average.innerText = "Ø" + round(this.persons[i].average, 2);
             this.grid.appendChild(avatar);
             this.grid.appendChild(name);
             this.grid.appendChild(points);
@@ -72,6 +72,7 @@ class Round {
         let outputString = "";
         outputString += this.date.toDateString() + ": " + this.name + '\n';
         for (let i = 0; i < this.persons.length; i++) {
+            if (i != 0) outputString += " ";
             outputString += this.persons[i].name + ",";
         }
         outputString = outputString.substring(0, outputString.length - 1);
@@ -79,6 +80,7 @@ class Round {
 
         for (let j = 0; j < this.numberOfTargets; j++) {
             for (let i = 0; i < this.persons.length; i++) {
+                if (i != 0) outputString += " ";
                 outputString += this.persons[i].pointsArray[j] + ",";
             }
             outputString = outputString.substring(0, outputString.length - 1);
@@ -106,7 +108,9 @@ function createRoundFromString(string) {
         for (let j = 0; j < points.length; j++) {
             personPoints.push(parseInt(points[j][i]));
         }
-        persons.push(new Person(personNames[i], personPoints, lines.length));
+        let personName = personNames[i];
+        if (personName.substring(0, 1) == " ") personName = personName.substring(1);
+        persons.push(new Person(personName, personPoints, lines.length - 2));
     }
 
     currentRound = new Round(new Date(date), name, persons, points.length);
