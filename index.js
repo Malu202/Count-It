@@ -156,30 +156,74 @@ saveCurrentRoundButton.addEventListener("click", function () {
 });
 
 
+// function copyTextToClipboard(text) {
+//     var textArea = document.createElement("textarea");
+//     textArea.style.position = 'fixed';
+//     textArea.style.top = 0;
+//     textArea.style.left = 0;
+//     textArea.style.width = '2em';
+//     textArea.style.height = '2em';
+//     textArea.style.padding = 0;
+//     textArea.style.border = 'none';
+//     textArea.style.outline = 'none';
+//     textArea.style.boxShadow = 'none';
+//     textArea.style.background = 'transparent';
+//     textArea.value = text;
+//     document.body.appendChild(textArea);
+//     textArea.focus();
+//     textArea.select();
+//     try {
+//         var successful = document.execCommand('copy');
+//         var msg = successful ? 'successful' : 'unsuccessful';
+//         console.log('Copying text command was ' + msg);
+//     } catch (err) {
+//         console.log('Oops, unable to copy');
+//     }
+//     document.body.removeChild(textArea);
+// }
+
 function copyTextToClipboard(text) {
-    var textArea = document.createElement("textarea");
-    textArea.style.position = 'fixed';
-    textArea.style.top = 0;
-    textArea.style.left = 0;
-    textArea.style.width = '2em';
-    textArea.style.height = '2em';
-    textArea.style.padding = 0;
-    textArea.style.border = 'none';
-    textArea.style.outline = 'none';
-    textArea.style.boxShadow = 'none';
-    textArea.style.background = 'transparent';
-    textArea.value = text;
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
+    let textarea;
+    let result;
+
     try {
-        var successful = document.execCommand('copy');
-        var msg = successful ? 'successful' : 'unsuccessful';
-        console.log('Copying text command was ' + msg);
+        textarea = document.createElement('textarea');
+        textarea.setAttribute('readonly', true);
+        textarea.setAttribute('contenteditable', true);
+        textarea.style.position = 'fixed'; // prevent scroll from jumping to the bottom when focus is set.
+        textarea.value = text;
+
+        document.body.appendChild(textarea);
+
+        textarea.focus();
+        textarea.select();
+
+        const range = document.createRange();
+        range.selectNodeContents(textarea);
+
+        const sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+
+        textarea.setSelectionRange(0, textarea.value.length);
+        result = document.execCommand('copy');
     } catch (err) {
-        console.log('Oops, unable to copy');
+        console.error(err);
+        result = null;
+    } finally {
+        document.body.removeChild(textarea);
     }
-    document.body.removeChild(textArea);
+
+    // manual copy fallback using prompt
+    if (!result) {
+        const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+        const copyHotkey = isMac ? '⌘C' : 'CTRL+C';
+        result = prompt(`Press ${copyHotkey}`, string); // eslint-disable-line no-alert
+        if (!result) {
+            return false;
+        }
+    }
+    return true;
 }
 
 function round(value, decimals) {
