@@ -83,6 +83,7 @@ class Round {
                 if (i != 0) outputString += " ";
                 outputString += this.persons[i].pointsArray[j] + ",";
             }
+            //wenn kein beistrich am ende, interpretiert zb excel 1,2,0 als datum 01.02.2000
             outputString = outputString.substring(0, outputString.length - 1);
             outputString += '\n';
         }
