@@ -18,6 +18,8 @@ let saveCurrentRoundButton = document.getElementById("saveCurrentRound");
 let saveCurrentRoundSpaceBehind = document.getElementById("saveCurrentRoundSpaceBehind");
 
 let currentTarget = 0;
+let currentRound;
+
 previousTargetButton.addEventListener("click", function () {
     currentTarget--;
     nextTargetButton.style.visibility = "visible";
@@ -82,8 +84,20 @@ function getPointsFromArrowAndZone(arrow, zone) {
     return points;
 }
 
+let previousRounds;
+function loadPreviousRounds() {
+    previousRounds = localStorage.getItem(PREVIOUS_ROUNDS_STORAGE_ID);
+    if (previousRounds != null) {
+        previousRounds = previousRounds.split(PREVIOUS_ROUNDS_STORAGE_SEPERATOR);
+        for (let i = 0; i < previousRounds.length; i++) {
+            let previousRound = createRoundFromString(previousRounds[i]);
+            previousRound.createOverview();
+        }
+    }
+}
+loadPreviousRounds();
+
 datePrefix.innerText = (new Date()).toLocaleDateString();
-let currentRound;
 addRoundButton.addEventListener("click", function () {
     newRoundDialog.classList.add("mdc-dialog--open");
 });
@@ -119,8 +133,43 @@ startNewRoundButton.addEventListener("click", function () {
 });
 
 saveCurrentRoundButton.addEventListener("click", function () {
-    
+    let currentRoundString = currentRound.toString();
+    currentRound.removeActiveRoundElements();
+    currentRound.save();
+    currentRound = null;
+
+    copyTextToClipboard(currentRoundString);
+    window.location.reload(false);
+    // document.getElementById("previousRoundsButton").click();
+
 });
+
+
+function copyTextToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    textArea.style.position = 'fixed';
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+    textArea.style.width = '2em';
+    textArea.style.height = '2em';
+    textArea.style.padding = 0;
+    textArea.style.border = 'none';
+    textArea.style.outline = 'none';
+    textArea.style.boxShadow = 'none';
+    textArea.style.background = 'transparent';
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+        console.log('Copying text command was ' + msg);
+    } catch (err) {
+        console.log('Oops, unable to copy');
+    }
+    document.body.removeChild(textArea);
+}
 
 function round(value, decimals) {
 

@@ -81,4 +81,7 @@ class Person {
     addOverview() {
         countingPage.insertBefore(this.overviewElement, countingPage.firstChild);
     }
+    removeOverview() {
+        countingPage.removeChild(this.overviewElement);
+    }
 }
