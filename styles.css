@@ -225,6 +225,11 @@ main {
     opacity: 1;
 }
 
+#newRoundDialog {
+    z-index: 2000;
+
+}
+
 #newRoundDialogContent {
     display: flex;
     flex-direction: column;
