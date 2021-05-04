@@ -71,15 +71,17 @@ document.getElementById("previousRoundsButton").click();
 
 
 function getArrowAndZoneFromPoints(points) {
-    if (points == 0) return { "zone": null, "arrow": null }
+    if (points == null) return { "zone": null, "arrow": null, "zeroHits": false }
+    if (points == 0) return { "zone": null, "arrow": null, "zeroHits": true }
     points = points / 2;
     points = 10 - points;
     let zone = points % 3;
     let arrow = Math.floor(points / 3);
-    return { "zone": zone, "arrow": arrow }
+    return { "zone": zone, "arrow": arrow, "zeroHits": false }
 }
-function getPointsFromArrowAndZone(arrow, zone) {
-    if (arrow == null || zone == null) return 0;
+function getPointsFromArrowAndZone(arrow, zone, zeroHits) {
+    if (zeroHits) return 0;
+    if (arrow == null || zone == null) return null;
     let points = 4 + 2 * (2 - zone) + 6 * (2 - arrow);
     return points;
 }
@@ -154,33 +156,6 @@ saveCurrentRoundButton.addEventListener("click", function () {
     window.location.reload(false);
     // document.getElementById("previousRoundsButton").click();
 });
-
-
-// function copyTextToClipboard(text) {
-//     var textArea = document.createElement("textarea");
-//     textArea.style.position = 'fixed';
-//     textArea.style.top = 0;
-//     textArea.style.left = 0;
-//     textArea.style.width = '2em';
-//     textArea.style.height = '2em';
-//     textArea.style.padding = 0;
-//     textArea.style.border = 'none';
-//     textArea.style.outline = 'none';
-//     textArea.style.boxShadow = 'none';
-//     textArea.style.background = 'transparent';
-//     textArea.value = text;
-//     document.body.appendChild(textArea);
-//     textArea.focus();
-//     textArea.select();
-//     try {
-//         var successful = document.execCommand('copy');
-//         var msg = successful ? 'successful' : 'unsuccessful';
-//         console.log('Copying text command was ' + msg);
-//     } catch (err) {
-//         console.log('Oops, unable to copy');
-//     }
-//     document.body.removeChild(textArea);
-// }
 
 function copyTextToClipboard(text) {
     let textarea;

@@ -13,6 +13,7 @@ class Round {
         this.name = name.replace(PREVIOUS_ROUNDS_STORAGE_SEPERATOR, "");
         this.persons = persons;
         this.numberOfTargets = numberOfTargets;
+        this.errorBar = document.getElementById("errorBar");
     }
 
 
@@ -65,6 +66,31 @@ class Round {
     }
     refreshDisplayedData() {
         this.persons.forEach(function (person) { person.refreshDisplayedData() });
+        let earliestMissingTarget = this.getEarliestMissingTarget();
+        if (earliestMissingTarget < currentTarget) this.showMissingPointsError(earliestMissingTarget);
+        else this.hideMissingPointsError();
+
+    }
+    hideMissingPointsError() {
+        this.errorBar.style.display = "none";
+    }
+
+    showMissingPointsError(earliestMissingTarget) {
+        this.errorBar.innerText = "Missing Points (Target " + (earliestMissingTarget + 1) + ")";
+        this.errorBar.style.display = "block";
+    }
+    getEarliestMissingTarget() {
+        let earliestMissingTarget = this.numberOfTargets - 1;
+        let self = this;
+        this.persons.forEach(function (person) {
+            for (let i = 0; i < self.numberOfTargets; i++) {
+                if (person.pointsArray[i] == null && i < earliestMissingTarget) {
+                    earliestMissingTarget = i;
+                    break;
+                }
+            }
+        });
+        return earliestMissingTarget;
     }
     save() {
         let previous = localStorage.getItem(PREVIOUS_ROUNDS_STORAGE_ID);
@@ -120,7 +146,7 @@ function createRoundFromString(string) {
     for (let i = 0; i < personNames.length; i++) {
         let personPoints = [];
         for (let j = 0; j < points.length; j++) {
-            if (!points[j][i].includes("undefined")) personPoints.push(parseInt(points[j][i]));
+            if (!points[j][i].includes("undefined") && !points[j][i].includes("null")) personPoints.push(parseInt(points[j][i]));
         }
         let personName = personNames[i];
         if (personName.substring(0, 1) == " ") personName = personName.substring(1);

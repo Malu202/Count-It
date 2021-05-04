@@ -24,6 +24,7 @@ main {
     align-items: center;
     overflow: auto;
     height: 100%;
+    margin: 0px !important;
 }
 
 #countingPage>.mdc-card,
@@ -46,7 +47,8 @@ main {
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-bottom: 8px;
+    /* margin-bottom: 8px; */
+    margin: 4px;
     max-width: 480px;
 }
 
@@ -62,10 +64,18 @@ main {
 }
 
 
-.counterFab {
+.counterFab,
+.zeroFab {
     width: 32px;
     height: 32px;
 }
+
+.zeroFab {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 5;
+}
+
 
 .fabDeselected {
     background-color: #000;
@@ -76,12 +86,20 @@ main {
     gap: 8px;
     justify-items: end;
     align-items: center;
+
+    grid-template-columns: auto auto auto auto auto;
 }
 
-.arrowFab3 {
+/* .arrowFab4 {
+    grid-row-start: 1;
+    grid-row-end: 3;
+    grid-column-start: 2;
+} */
+
+/* .arrowFab3 {
     grid-column-start: 4;
     grid-row-start: 1;
-}
+} */
 
 .totalPoints,
 .averagePoints {
@@ -237,4 +255,26 @@ main {
     height: 68px;
     min-height: 68px;
     flex: 0 0 auto;
+}
+
+#errorBar {
+    color: #fff;
+    background-color: #f00;
+    align-self: stretch;
+    text-align: center;
+    font-family: Roboto, sans-serif;
+    padding: 4px;
+    margin-bottom: 4px;
+    order: -1;
+
+
+    position: -webkit-sticky;
+    /* Safari */
+    position: sticky;
+    top: 0;
+    display: none;
+}
+
+#addRound {
+    z-index: 999;
 }
