@@ -63,6 +63,7 @@ menuButton.addEventListener("click", function () {
         [].forEach.call(document.getElementsByClassName(button.id), function (page) {
             page.style.display = "flex";
         });
+        document.getElementById("errorBar").style.display = "none";
         drawerScrim.click();
     });
 });

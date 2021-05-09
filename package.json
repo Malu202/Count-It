@@ -1,0 +1,15 @@
+{
+  "name": "count-it",
+  "version": "0.9.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "sass --watch styles.scss styles.css"
+  },
+  "author": "",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "material-components-web": "^11.0.0"
+  }
+}
