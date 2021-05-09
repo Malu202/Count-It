@@ -51,8 +51,8 @@ class Person {
         else this.zeroFab.classList.add("fabDeselected");
 
         [].forEach.call(this.overviewElement.getElementsByClassName("counterFab"), function (fab, i) {
-            if (zeroHits) fab.style.opacity = 0.2;
-            else fab.style.opacity = 1;
+            if (zeroHits) fab.classList.add("disabled");
+            else fab.classList.remove("disabled");;
         });
     }
     addButtonEvents() {

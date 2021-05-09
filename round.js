@@ -57,6 +57,7 @@ class Round {
         for (let i = this.persons.length - 1; i >= 0; i--) {
             this.persons[i].recalculatePoints(roundFinished);
         }
+        this.earliestMissingTarget = this.getEarliestMissingTarget();
     }
     createActiveRoundElements() {
         this.persons.forEach(function (person) { person.addOverview(); });
@@ -66,8 +67,8 @@ class Round {
     }
     refreshDisplayedData() {
         this.persons.forEach(function (person) { person.refreshDisplayedData() });
-        let earliestMissingTarget = this.getEarliestMissingTarget();
-        if (earliestMissingTarget < currentTarget) this.showMissingPointsError(earliestMissingTarget);
+        this.earliestMissingTarget = this.getEarliestMissingTarget();
+        if (this.earliestMissingTarget < currentTarget) this.showMissingPointsError(this.earliestMissingTarget);
         else this.hideMissingPointsError();
 
     }

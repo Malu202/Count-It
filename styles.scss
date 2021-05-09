@@ -122,7 +122,7 @@ main {
     text-align: center;
 }
 
-#targetName {
+#title {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
@@ -294,4 +294,9 @@ main {
 
 #addRound {
     z-index: 999;
+}
+
+.disabled {
+    opacity: 0.2 !important;
+    pointer-events: none;
 }

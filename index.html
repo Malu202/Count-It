@@ -54,11 +54,14 @@
                 <!-- <span class="mdc-top-app-bar__title">Count-It</span> -->
             </section>
             <div class="mdc-top-app-bar__section">
-                <div id="targetName" class="mdc-top-app-bar__title">
+                <div id="title" class="mdc-top-app-bar__title">
                     <div id="targetNameGroup" class="page currentRoundButton">
                         <div id="previousTarget" class="material-icons targetNavigationButton">arrow_back_ios_new</div>
                         <div id="currentTargetLabel">Target 1</div>
                         <div id="nextTarget" class="material-icons targetNavigationButton">arrow_forward_ios</div>
+                    </div>
+                    <div class="page previousRoundsButton">
+                        History
                     </div>
                 </div>
             </div>
@@ -164,7 +167,8 @@
                                 </span>
                                 <span class="mdc-notched-outline__trailing"></span>
                             </span>
-                            <input id="newRoundTargets" type="number" class="mdc-text-field__input">
+                            <input id="newRoundTargets" type="number" min="0" inputmode="numeric" pattern="[0-9]*"
+                                class="mdc-text-field__input">
                         </label>
 
                         Persons (e.g.: Susan, John, Mary)

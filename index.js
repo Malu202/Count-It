@@ -106,7 +106,14 @@ function loadCurrentRound() {
         document.getElementById("currentRoundButton").click();
         currentRound = createRoundFromString(currentRoundString);
         currentRound.createActiveRoundElements();
-        setTimeout(function () { currentRound.recalculatePoints(); }, 0);
+        setTimeout(function () {
+            currentRound.recalculatePoints();
+            currentTarget = currentRound.earliestMissingTarget - 1;
+            nextTargetButton.click();
+
+        }, 0);
+    } else {
+        document.getElementById("currentRoundButton").classList.add("disabled");
     }
 }
 loadCurrentRound();
@@ -144,6 +151,7 @@ startNewRoundButton.addEventListener("click", function () {
         currentRound.createActiveRoundElements();
         cancelNewRoundButton.click();
         document.getElementById("currentRoundButton").click();
+        document.getElementById("currentRoundButton").classList.remove("disabled");
     }
 });
 
