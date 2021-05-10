@@ -1,6 +1,19 @@
-@use "@material/theme"with ($primary: #3d2622,
-    $secondary: #33691e,
-    $background: #694e4a,
+// @use "@material/theme"with ($primary: #3d2622,
+//     $secondary: #33691e,
+//     $background: #694e4a,
+// );
+// $primary-color: #3a4500;
+$primary-color: #3a4500;
+// $primary-color: #79840d;
+
+$secondary-color: #ffc107;
+$background-color: #E1E2E1;
+// $background-color: #989e3c;
+
+$card-color: #fff;
+@use "@material/theme"with ($primary: $primary-color,
+    $secondary: $secondary-color,
+    $background: $background-color,
 );
 @use "material-components-web";
 // @import "material-components-web";
@@ -13,7 +26,7 @@ main {
     padding: 0px;
     overflow: hidden;
     height: 100%;
-    background-color: #694e4a;
+    background-color: $background-color;
 }
 
 #top-app-bar-padding {
@@ -47,6 +60,9 @@ main {
     margin: 4px;
 }
 
+.mdc-card {
+    background-color: $card-color;
+}
 
 .personCounterRow {
     display: flex;
@@ -299,4 +315,15 @@ main {
 .disabled {
     opacity: 0.2 !important;
     pointer-events: none;
+}
+
+.fabDeselected>.mdc-fab__icon {
+    color: #fff !important;
+}
+
+.fabDeselected {
+    background-color: #000 !important;
+    // border-style: solid !important;
+    // border-width: 1px !important;
+// border-color: black;
 }
