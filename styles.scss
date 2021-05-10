@@ -325,5 +325,34 @@ main {
     background-color: #000 !important;
     // border-style: solid !important;
     // border-width: 1px !important;
-// border-color: black;
+    // border-color: black;
+}
+
+.mdc-menu {
+    top: 4px;
+    white-space: nowrap;
+}
+
+.mdc-list-item {
+    height: 48px;
+    align-items: center;
+}
+
+.displayNone {
+    display: none;
+}
+
+#focusTrap {
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    margin: 0px;
+    padding: 0px;
+    display: none;
+    z-index: 3;
+
+    background-color: #f00;
+    opacity: 0.2;
 }

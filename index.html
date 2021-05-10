@@ -65,12 +65,28 @@
                     </div>
                 </div>
             </div>
+            <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end page previousRoundsButton">
+
+                <button id="historyMenuButton"
+                    class="mdc-icon-button material-icons mdc-top-app-bar__action-item--unbounded">more_vert</button>
+                <div id="menuBlueprint" class="mdc-menu mdc-menu-surface mdc-menu-surface--open blueprint">
+                    <ul class="mdc-list" tabindex="-1">
+                        <li class="mdc-list-item" role="menuitem">
+                            <span class="mdc-list-item__ripple"></span>
+                            <span class="mdc-list-item__text">Import History</span>
+                        </li>
+                        <li class="mdc-list-divider" role="separator"></li>
+                    </ul>
+                </div>
+            </div>
         </div>
 
     </header>
     <main class="mdc-top-app-bar--fixed-adjust" id="page">
         <div id="errorBar">Missing Points (Target 2)</div>
         <div id="countingPage" class="page currentRoundButton">
+
+
 
             <div id="personCounterBlueprint" class="mdc-card personCounter blueprint">
                 <div class="personDetails">
@@ -200,6 +216,7 @@
 
     </main>
 </body>
+<script src="menu.js"></script>
 <script src="person.js"></script>
 <script src="round.js"></script>
 <script src="index.js"></script>

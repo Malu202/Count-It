@@ -134,6 +134,7 @@ class Round {
 
 function createRoundFromString(string) {
     let lines = string.split('\n');
+    if (lines.length < 3) return null;
     let date = lines[0].substr(0, lines[0].indexOf(':'));
     let name = lines[0].substring(date.length + 2);
 
