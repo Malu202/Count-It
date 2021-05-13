@@ -174,13 +174,14 @@ function createRoundFromString(string) {
 
     let points = [];
     for (let i = 2; i < lines.length; i++) {
-        points.push(lines[i].split(','))
+        // points.push(lines[i].split(','));
+        points[i - 2] = lines[i].split(',');
     }
     let persons = [];
     for (let i = 0; i < personNames.length; i++) {
         let personPoints = [];
         for (let j = 0; j < points.length; j++) {
-            if (!points[j][i].includes("undefined") && !points[j][i].includes("null")) personPoints.push(parseInt(points[j][i]));
+            if (!points[j][i].includes("undefined") && !points[j][i].includes("null")) personPoints[j] = parseInt(points[j][i]);
         }
         let personName = personNames[i];
         if (personName.substring(0, 1) == " ") personName = personName.substring(1);
