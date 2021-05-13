@@ -101,39 +101,7 @@ function loadPreviousRounds() {
 loadPreviousRounds();
 
 
-let historyMenuButton = document.getElementById("historyMenuButton");
-let historyMenu = new Menu(historyMenuButton, ["Import History", "Export History"], [
-    importHistory,
-    exportHistory
-]);
 
-function importHistory(newHistoryString) {
-    return;
-    previousRoundsString = localStorage.getItem(PREVIOUS_ROUNDS_STORAGE_ID);
-    if (previousRoundsString != null) {
-        let previousRounds = previousRoundsString.split(PREVIOUS_ROUNDS_STORAGE_SEPERATOR);
-        let newHistory = newHistoryString.split(PREVIOUS_ROUNDS_STORAGE_SEPERATOR);
-
-        for (let i = 0; i < newHistory.length; i++) {
-            let possibleNewRound = createRoundFromString(newHistory[i]);
-            if (possibleNewRound != null) {
-                let alreadyOnDevice = false;
-                for (let j = 0; j < previousRounds.length; j++) {
-                    if (newHistory[i] == previousRounds[j]) {
-                        alreadyOnDevice = true;
-                        break;
-                    }
-                }
-                if (!alreadyOnDevice) {
-                    // previousRoundsString+=PREVIOUS_ROUNDS_STORAGE_SEPERATOR + newHistory[i];
-                }
-            }
-        }
-    }
-}
-function exportHistory() {
-    copyTextToClipboard(localStorage.getItem(PREVIOUS_ROUNDS_STORAGE_ID));
-}
 
 function loadCurrentRound() {
     let currentRoundString = localStorage.getItem(CURRENT_ROUND_STORAGE_ID);
@@ -155,14 +123,16 @@ loadCurrentRound();
 
 datePrefix.innerText = (new Date()).toLocaleDateString();
 addRoundButton.addEventListener("click", function () {
-    newRoundDialog.classList.add("mdc-dialog--open");
+    // newRoundDialog.classList.add("mdc-dialog--open");
+    showDialog(newRoundDialog)
 });
 cancelNewRoundButton.addEventListener("click", function () {
-    newRoundDialog.classList.remove("mdc-dialog--open");
-    let inputs = newRoundDialog.getElementsByTagName("input");
-    for (let i = 0; i < inputs.length; i++) {
-        inputs[i].value = "";
-    }
+    // newRoundDialog.classList.remove("mdc-dialog--open");
+    // let inputs = newRoundDialog.getElementsByTagName("input");
+    // for (let i = 0; i < inputs.length; i++) {
+    //     inputs[i].value = "";
+    // }
+    hideDialog(newRoundDialog);
 });
 startNewRoundButton.addEventListener("click", function () {
     let nameValid = newRoundNameInput.value != "";

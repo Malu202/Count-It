@@ -214,11 +214,49 @@
         </div>
 
 
+
+
+        <div id="importHistoryDialog" class="mdc-dialog">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <h2 class="mdc-dialog__title" id="my-dialog-title">Import History</h2>
+                    <div id="importHistoryDialogContent" class="mdc-dialog__content" id="my-dialog-content">
+
+                        History in Text format:
+                        <label id="importHistoryLabel"
+                            class="mdc-text-field mdc-text-field--outlined mdc-text-field--textarea mdc-text-field--no-label">
+                            <span class="mdc-notched-outline">
+                                <span class="mdc-notched-outline__leading"></span>
+                                <span class="mdc-notched-outline__trailing"></span>
+                            </span>
+                            <textarea id="importHistoryTextArea" class="mdc-text-field__input"></textarea>
+                        </label>
+                        <div id="importHistoryButtons">
+                            <button id="cancelImportHistory" class="mdc-button mdc-dialog__button">
+                                <div class="mdc-button__ripple"></div>
+                                <span class="mdc-button__label">Cancel</span>
+                            </button>
+                            <button id="importHistoryButton" class="mdc-button mdc-dialog__button">
+                                <div class="mdc-button__ripple"></div>
+                                <span class="mdc-button__label">Import</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim"></div>
+        </div>
+
+
+
+
+
     </main>
 </body>
 <script src="menu.js"></script>
 <script src="person.js"></script>
 <script src="round.js"></script>
 <script src="index.js"></script>
+<script src="history.js"></script>
 
 </html>
