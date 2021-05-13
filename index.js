@@ -87,15 +87,22 @@ function getPointsFromArrowAndZone(arrow, zone, zeroHits) {
     return points;
 }
 
-let previousRounds;
+let previousRoundsString;
 function loadPreviousRounds() {
-    previousRounds = localStorage.getItem(PREVIOUS_ROUNDS_STORAGE_ID);
-    if (previousRounds != null) {
-        previousRounds = previousRounds.split(PREVIOUS_ROUNDS_STORAGE_SEPERATOR);
-        for (let i = 0; i < previousRounds.length; i++) {
-            let previousRound = createRoundFromString(previousRounds[i]);
-            previousRound.createOverview();
+    previousRoundsString = localStorage.getItem(PREVIOUS_ROUNDS_STORAGE_ID);
+    if (previousRoundsString != null) {
+        previousRoundsString = previousRoundsString.split(PREVIOUS_ROUNDS_STORAGE_SEPERATOR);
+        let previousRounds = [];
+        for (let i = 0; i < previousRoundsString.length; i++) {
+            let previousRound = createRoundFromString(previousRoundsString[i]);
+            previousRounds.push(previousRound);
         }
+        previousRounds.sort(function (a, b) {
+            return b.date - a.date;
+        })
+        previousRounds.forEach(function (round) {
+            round.createOverview();
+        })
     }
 }
 loadPreviousRounds();
