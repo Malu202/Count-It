@@ -117,21 +117,27 @@ class Round {
         localStorage.setItem(CURRENT_ROUND_STORAGE_ID, this.toTextOutput());
     }
     delete() {
-        let previous = localStorage.getItem(PREVIOUS_ROUNDS_STORAGE_ID);
-        let thisRound = this.toTextOutput();
-        let newHistory = previous.replace(thisRound, "");
-        if (newHistory.length < previous.length) {
-            newHistory = newHistory.replace(PREVIOUS_ROUNDS_STORAGE_SEPERATOR + PREVIOUS_ROUNDS_STORAGE_SEPERATOR, PREVIOUS_ROUNDS_STORAGE_SEPERATOR);
-            if (newHistory.endsWith(PREVIOUS_ROUNDS_STORAGE_SEPERATOR)) newHistory = newHistory.slice(0, 0 - PREVIOUS_ROUNDS_STORAGE_SEPERATOR.length);
-            if (newHistory.startsWith(PREVIOUS_ROUNDS_STORAGE_SEPERATOR)) newHistory = newHistory.slice(PREVIOUS_ROUNDS_STORAGE_SEPERATOR.length);
+        showDialog(deletionFailsafe);
+        let self = this;
+        deleteFailsafeButton.onclick = function () {
+            if (deletionFailsafeInput.value == "DELETE") {
+                let previous = localStorage.getItem(PREVIOUS_ROUNDS_STORAGE_ID);
+                let thisRound = self.toTextOutput();
+                let newHistory = previous.replace(thisRound, "");
+                if (newHistory.length < previous.length) {
+                    newHistory = newHistory.replace(PREVIOUS_ROUNDS_STORAGE_SEPERATOR + PREVIOUS_ROUNDS_STORAGE_SEPERATOR, PREVIOUS_ROUNDS_STORAGE_SEPERATOR);
+                    if (newHistory.endsWith(PREVIOUS_ROUNDS_STORAGE_SEPERATOR)) newHistory = newHistory.slice(0, 0 - PREVIOUS_ROUNDS_STORAGE_SEPERATOR.length);
+                    if (newHistory.startsWith(PREVIOUS_ROUNDS_STORAGE_SEPERATOR)) newHistory = newHistory.slice(PREVIOUS_ROUNDS_STORAGE_SEPERATOR.length);
 
 
-            if (newHistory.length > 0) localStorage.setItem(PREVIOUS_ROUNDS_STORAGE_ID, newHistory);
-            else localStorage.removeItem(PREVIOUS_ROUNDS_STORAGE_ID);
-            window.location.reload(false);
+                    if (newHistory.length > 0) localStorage.setItem(PREVIOUS_ROUNDS_STORAGE_ID, newHistory);
+                    else localStorage.removeItem(PREVIOUS_ROUNDS_STORAGE_ID);
+                    window.location.reload(false);
 
-        } else {
-            alert("Error deleting this round, could not be found.")
+                } else {
+                    alert("Error deleting this round, could not be found.")
+                }
+            }
         }
     }
     toTextOutput() {

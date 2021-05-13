@@ -16,6 +16,12 @@ let newRoundPersonsInput = document.getElementById("newRoundPersons");
 let newRoundDatePrefix = document.getElementById("datePrefix");
 let saveCurrentRoundButton = document.getElementById("saveCurrentRound");
 let saveCurrentRoundSpaceBehind = document.getElementById("saveCurrentRoundSpaceBehind");
+let deletionFailsafe = document.getElementById("deletionFailsafe");
+let cancelFailsafeButton = document.getElementById("cancelFailsafe");
+let deleteFailsafeButton = document.getElementById("deleteFailsafe");
+let deletionFailsafeText = document.getElementById("deletionFailsafeText");
+let deletionFailsafeInput = document.getElementById("deletionFailsafeInput");
+
 
 let currentTarget = 0;
 let currentRound;
@@ -240,4 +246,6 @@ function round(value, decimals) {
     return Number(Math.round(valueString + 'e' + (power + decimals)) + 'e-' + (decimals));
 }
 
-
+cancelFailsafeButton.addEventListener("click", function () {
+    hideDialog(deletionFailsafe);
+});

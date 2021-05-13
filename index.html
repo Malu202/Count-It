@@ -160,7 +160,7 @@
             <div class="mdc-dialog__container">
                 <div class="mdc-dialog__surface">
                     <h2 class="mdc-dialog__title" id="my-dialog-title">New Round</h2>
-                    <div id="newRoundDialogContent" class="mdc-dialog__content" id="my-dialog-content">
+                    <div id="newRoundDialogContent" class="mdc-dialog__content">
 
                         Name:
                         <label class="mdc-text-field mdc-text-field--outlined">
@@ -197,7 +197,7 @@
                             </span>
                             <input id="newRoundPersons" type="text" class="mdc-text-field__input">
                         </label>
-                        <div id="newRoundDialogButtons">
+                        <div id="newRoundDialogButtons" id="dialogButtons">
                             <button id="cancelNewRound" class="mdc-button mdc-dialog__button">
                                 <div class="mdc-button__ripple"></div>
                                 <span class="mdc-button__label">Cancel</span>
@@ -220,7 +220,7 @@
             <div class="mdc-dialog__container">
                 <div class="mdc-dialog__surface">
                     <h2 class="mdc-dialog__title" id="my-dialog-title">Import History</h2>
-                    <div id="importHistoryDialogContent" class="mdc-dialog__content" id="my-dialog-content">
+                    <div id="importHistoryDialogContent" class="mdc-dialog__content">
 
                         History in Text format:
                         <label id="importHistoryLabel"
@@ -231,7 +231,7 @@
                             </span>
                             <textarea id="importHistoryTextArea" class="mdc-text-field__input"></textarea>
                         </label>
-                        <div id="importHistoryButtons">
+                        <div id="importHistoryButtons" class="dialogButtons">
                             <button id="cancelImportHistory" class="mdc-button mdc-dialog__button">
                                 <div class="mdc-button__ripple"></div>
                                 <span class="mdc-button__label">Cancel</span>
@@ -247,7 +247,39 @@
             <div class="mdc-dialog__scrim"></div>
         </div>
 
+        <div id="deletionFailsafe" class="mdc-dialog">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <h2 class="mdc-dialog__title" id="my-dialog-title">Delete</h2>
+                    <div class="mdc-dialog__content dialogContent">
 
+                        <div id="deletionFailsafeText">If you really want to delete, type "DELETE" below.</div>
+                        <label id="deletionFailsafeLabel" class="mdc-text-field mdc-text-field--outlined">
+                            <span class="mdc-notched-outline">
+                                <span class="mdc-notched-outline__leading"></span>
+                                <span class="mdc-notched-outline__notch">
+                                </span>
+                                <span class="mdc-notched-outline__trailing"></span>
+                            </span>
+                            <input id="deletionFailsafeInput" type="text" class="mdc-text-field__input">
+                        </label>
+
+
+                        <div class="dialogButtons">
+                            <button id="cancelFailsafe" class="mdc-button mdc-dialog__button">
+                                <div class="mdc-button__ripple"></div>
+                                <span class="mdc-button__label">Cancel</span>
+                            </button>
+                            <button id="deleteFailsafe" class="mdc-button mdc-dialog__button">
+                                <div class="mdc-button__ripple"></div>
+                                <span class="mdc-button__label">Delete</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim"></div>
+        </div>
 
 
 
