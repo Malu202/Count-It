@@ -54,9 +54,10 @@ class Round {
         }
 
         let self = this;
-        this.menu = new Menu(this.menuButton, ["Export", "Show Details"], [
-            function () { copyTextToClipboard(self.toString()); },
-            function () { alert(self.toString()); },
+        this.menu = new Menu(this.menuButton, ["Export", "Show Details", "Delete"], [
+            function () { copyTextToClipboard(self.toTextOutput()); },
+            function () { alert(self.toTextOutput()); },
+            function () { self.delete() }
         ]);
         historyPage.appendChild(this.overviewElement);
         // this.addButtonEvents();
@@ -104,19 +105,32 @@ class Round {
     save() {
         let previous = localStorage.getItem(PREVIOUS_ROUNDS_STORAGE_ID);
         if (previous == null) {
-            localStorage.setItem(PREVIOUS_ROUNDS_STORAGE_ID, this.toString());
+            localStorage.setItem(PREVIOUS_ROUNDS_STORAGE_ID, this.toTextOutput());
         } else {
             previous += PREVIOUS_ROUNDS_STORAGE_SEPERATOR;
-            localStorage.setItem(PREVIOUS_ROUNDS_STORAGE_ID, previous + this.toString());
+            localStorage.setItem(PREVIOUS_ROUNDS_STORAGE_ID, previous + this.toTextOutput());
         }
         localStorage.removeItem(CURRENT_ROUND_STORAGE_ID);
     }
     saveAsActive() {
         console.log("saving active round")
-        localStorage.setItem(CURRENT_ROUND_STORAGE_ID, this.toString());
-        let a = 0;
+        localStorage.setItem(CURRENT_ROUND_STORAGE_ID, this.toTextOutput());
     }
-    toString() {
+    delete() {
+        let previous = localStorage.getItem(PREVIOUS_ROUNDS_STORAGE_ID);
+        let thisRound = this.toTextOutput();
+        let newHistory = previous.replace(thisRound, "");
+        if (newHistory.length < previous.length) {
+            newHistory = newHistory.replace(PREVIOUS_ROUNDS_STORAGE_SEPERATOR + PREVIOUS_ROUNDS_STORAGE_SEPERATOR, PREVIOUS_ROUNDS_STORAGE_SEPERATOR);
+            if (newHistory.endsWith(PREVIOUS_ROUNDS_STORAGE_SEPERATOR)) newHistory = newHistory.slice(0, 0 - PREVIOUS_ROUNDS_STORAGE_SEPERATOR.length)
+            localStorage.setItem(PREVIOUS_ROUNDS_STORAGE_ID, newHistory);
+            window.location.reload(false);
+
+        } else {
+            alert("Error deleting this round, could not be found.")
+        }
+    }
+    toTextOutput() {
         let outputString = "";
         outputString += this.date.toDateString() + ": " + this.name + '\n';
         for (let i = 0; i < this.persons.length; i++) {

@@ -168,7 +168,7 @@ startNewRoundButton.addEventListener("click", function () {
 });
 
 saveCurrentRoundButton.addEventListener("click", function () {
-    let currentRoundString = currentRound.toString();
+    let currentRoundString = currentRound.toTextOutput();
     currentRound.removeActiveRoundElements();
     currentRound.save();
     currentRound = null;

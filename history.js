@@ -40,7 +40,7 @@ importHistoryButton.addEventListener("click", function () {
             }
             if (!alreadyOnDevice) {
                 if (previousRoundsString.length > 0) previousRoundsString += PREVIOUS_ROUNDS_STORAGE_SEPERATOR;
-                previousRoundsString += possibleNewRound.toString();
+                previousRoundsString += possibleNewRound.toTextOutput();
 
             }
         }
