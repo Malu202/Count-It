@@ -20,10 +20,12 @@ class Round {
     createOverview() {
         this.overviewElement = roundOverviewBlueprint.cloneNode(true);
         this.overviewElement.classList.remove("blueprint");
+        this.menuButton = this.overviewElement.getElementsByClassName("editRoundButton")[0];
 
         this.overviewElement.getElementsByClassName("roundDate")[0].innerText = this.date.toLocaleDateString();
         this.overviewElement.getElementsByClassName("roundName")[0].innerText = this.name;
         this.overviewElement.getElementsByClassName("roundTotalTargets")[0].innerText = this.numberOfTargets + " Targets";
+
 
         //this.overviewElement.getElementsByClassName("roundTotalTime")[0].innerText = "3h 25min";
 
@@ -50,6 +52,12 @@ class Round {
         for (let i = 0; i < 4; i++) {
             this.grid.removeChild(this.grid.firstElementChild);
         }
+
+        let self = this;
+        this.menu = new Menu(this.menuButton, ["Export", "Show Details"], [
+            function () { copyTextToClipboard(self.toString()); },
+            function () { alert(self.toString()); },
+        ]);
         historyPage.appendChild(this.overviewElement);
         // this.addButtonEvents();
     }

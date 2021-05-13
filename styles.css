@@ -14769,7 +14769,7 @@ main {
   max-width: 480px;
 }
 
-#editRoundButton {
+.editRoundButton {
   align-self: flex-start;
 }
 
