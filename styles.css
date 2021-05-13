@@ -14782,13 +14782,14 @@ main {
   position: fixed;
   bottom: 32px;
   right: 32px;
+  z-index: 1;
 }
 
 .mdc-text-field__affix {
   opacity: 1;
 }
 
-#newRoundDialog {
+.mdc-dialog {
   z-index: 2000;
 }
 
@@ -14838,10 +14839,6 @@ main {
   position: sticky;
   top: 0;
   display: none;
-}
-
-#addRound {
-  z-index: 999;
 }
 
 .disabled {

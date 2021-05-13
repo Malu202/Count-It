@@ -181,7 +181,8 @@ function createRoundFromString(string) {
     for (let i = 0; i < personNames.length; i++) {
         let personPoints = [];
         for (let j = 0; j < points.length; j++) {
-            if (!points[j][i].includes("undefined") && !points[j][i].includes("null")) personPoints[j] = parseInt(points[j][i]);
+            if (points[j][i].includes("undefined") || points[j][i].includes("null")) personPoints[j] = null;
+            else personPoints[j] = parseInt(points[j][i]);
         }
         let personName = personNames[i];
         if (personName.substring(0, 1) == " ") personName = personName.substring(1);
