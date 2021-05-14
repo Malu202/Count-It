@@ -14738,6 +14738,17 @@ main {
   display: none;
 }
 
+.roundDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 1 0;
+}
+
+.roundDetails > * {
+  text-align: center;
+}
+
 .roundName {
   font-weight: bold;
 }
@@ -14752,6 +14763,7 @@ main {
 }
 
 .roundGrid {
+  flex: 1 1 0;
   display: grid;
   justify-items: left;
   gap: 4px 8px;
