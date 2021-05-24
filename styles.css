@@ -14841,7 +14841,7 @@ main {
   flex: 0 0 auto;
 }
 
-#errorBar {
+.errorBar {
   color: #fff;
   background-color: #f00;
   align-self: stretch;
@@ -14855,6 +14855,11 @@ main {
   position: sticky;
   top: 0;
   display: none;
+}
+
+#skippedBar {
+  color: #000;
+  background-color: #ffc107;
 }
 
 .disabled {

@@ -4,6 +4,8 @@ const CURRENT_ROUND_STORAGE_ID = "savedCurrentRound";
 
 let roundOverviewBlueprint = document.getElementById("roundOverviewBlueprint");
 let historyPage = document.getElementById("history");
+let skippedBar = document.getElementById("skippedBar");
+let errorBar = document.getElementById("errorBar");
 
 
 
@@ -13,7 +15,6 @@ class Round {
         this.name = name.replace(PREVIOUS_ROUNDS_STORAGE_SEPERATOR, "");
         this.persons = persons;
         this.numberOfTargets = numberOfTargets;
-        this.errorBar = document.getElementById("errorBar");
     }
 
 
@@ -63,8 +64,9 @@ class Round {
         // this.addButtonEvents();
     }
     recalculatePoints(roundFinished) {
+        let skipped = this.getSkippedTargets();
         for (let i = this.persons.length - 1; i >= 0; i--) {
-            this.persons[i].recalculatePoints(roundFinished);
+            this.persons[i].recalculatePoints(roundFinished, skipped.targets, skipped.amount);
         }
         this.earliestMissingTarget = this.getEarliestMissingTarget();
     }
@@ -75,19 +77,23 @@ class Round {
         this.persons.forEach(function (person) { person.removeOverview(); });
     }
     refreshDisplayedData() {
-        this.persons.forEach(function (person) { person.refreshDisplayedData() });
+        let skipped = this.getSkippedTargets();
+        this.persons.forEach(function (person) {
+            person.refreshDisplayedData(skipped.targets, skipped.amount);
+        });
         this.earliestMissingTarget = this.getEarliestMissingTarget();
         if (this.earliestMissingTarget < currentTarget) this.showMissingPointsError(this.earliestMissingTarget);
         else this.hideMissingPointsError();
-
+        if (skipped.targets[currentTarget] == "-") skippedBar.style.display = "block";
+        else skippedBar.style.display = "none";
     }
     hideMissingPointsError() {
-        this.errorBar.style.display = "none";
+        errorBar.style.display = "none";
     }
 
     showMissingPointsError(earliestMissingTarget) {
-        this.errorBar.innerText = "Missing Points (Target " + (earliestMissingTarget + 1) + ")";
-        this.errorBar.style.display = "block";
+        errorBar.innerText = "Missing Points (Target " + (earliestMissingTarget + 1) + ")";
+        errorBar.style.display = "block";
     }
     getEarliestMissingTarget() {
         let earliestMissingTarget = this.numberOfTargets - 1;
@@ -101,6 +107,40 @@ class Round {
             }
         });
         return earliestMissingTarget;
+    }
+    getSkippedTargets() {
+        let skippedTargets = [];
+        let skippedTargetsAmount = 0;
+
+        for (let j = 0; j < this.numberOfTargets; j++) {
+            skippedTargets[j] = 1;
+        }
+        for (let i = 0; i < this.persons.length; i++) {
+            for (let j = 0; j < this.numberOfTargets; j++) {
+                if (this.persons[i].pointsArray[j] == "-") {
+                    if (skippedTargets[j] != "-") skippedTargetsAmount++;
+                    skippedTargets[j] = "-";
+                }
+            }
+        }
+
+        return { targets: skippedTargets, amount: skippedTargetsAmount }
+    }
+    isCurrentTargetPartiallyEmpty() {
+        let isEmpty = false;
+        this.persons.forEach(function (person) {
+            if (person.pointsArray[currentTarget] == null) {
+                isEmpty = true;
+            }
+        });
+        return isEmpty;
+    }
+    setCurrentTargetAsSkipped() {
+        this.persons.forEach(function (person) {
+            if (person.pointsArray[currentTarget] == null) {
+                person.pointsArray[currentTarget] = "-";
+            }
+        });
     }
     save() {
         let previous = localStorage.getItem(PREVIOUS_ROUNDS_STORAGE_ID);
@@ -182,6 +222,7 @@ function createRoundFromString(string) {
         let personPoints = [];
         for (let j = 0; j < points.length; j++) {
             if (points[j][i].includes("undefined") || points[j][i].includes("null")) personPoints[j] = null;
+            else if (points[j][i].includes("-")) personPoints[j] = "-";
             else personPoints[j] = parseInt(points[j][i]);
         }
         let personName = personNames[i];

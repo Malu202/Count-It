@@ -78,15 +78,13 @@
                     </ul>
                 </div>
             </div>
-            <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end page currentRoundButton">
-                <button id="skipTargetButton"
-                    class="mdc-icon-button material-icons mdc-top-app-bar__action-item--unbounded">close</button>
-            </div>
         </div>
 
     </header>
     <main class="mdc-top-app-bar--fixed-adjust" id="page">
-        <div id="errorBar">Missing Points (Target 2)</div>
+        <div class="errorBar" id="errorBar">Missing Points (Target 2)</div>
+        <div class="errorBar" id="skippedBar">Target skipped (Points not counted)</div>
+
         <div id="countingPage" class="page currentRoundButton">
 
 
@@ -129,7 +127,7 @@
             </div>
 
             <button id="saveCurrentRound" class="mdc-button mdc-button--raised">
-                <span class="mdc-button__label">Beenden</span>
+                <span class="mdc-button__label">Finish</span>
             </button>
             <div id="saveCurrentRoundSpaceBehind"> </div>
         </div>
@@ -284,7 +282,28 @@
             <div class="mdc-dialog__scrim"></div>
         </div>
 
+        <div id="skipTargetDialog" class="mdc-dialog">
+            <div class="mdc-dialog__container">
+                <div class="mdc-dialog__surface">
+                    <h2 class="mdc-dialog__title" id="my-dialog-title">Skip this target?</h2>
+                    <div class="mdc-dialog__content">
 
+                        Do you want this target marked as skipped?
+                        <div class="dialogButtons">
+                            <button id="cancelSkipTargetButton" class="mdc-button mdc-dialog__button">
+                                <div class="mdc-button__ripple"></div>
+                                <span class="mdc-button__label">Cancel</span>
+                            </button>
+                            <button id="skipTargetButton" class="mdc-button mdc-dialog__button">
+                                <div class="mdc-button__ripple"></div>
+                                <span class="mdc-button__label">Mark as skipped</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mdc-dialog__scrim"></div>
+        </div>
 
     </main>
 </body>

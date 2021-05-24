@@ -21,7 +21,9 @@ let cancelFailsafeButton = document.getElementById("cancelFailsafe");
 let deleteFailsafeButton = document.getElementById("deleteFailsafe");
 let deletionFailsafeText = document.getElementById("deletionFailsafeText");
 let deletionFailsafeInput = document.getElementById("deletionFailsafeInput");
-
+let skipTargetDialog = document.getElementById("skipTargetDialog");
+let cancelSkipTargetButton = document.getElementById("cancelSkipTargetButton");
+let skipTargetButton = document.getElementById("skipTargetButton");
 
 let currentTarget = 0;
 let currentRound;
@@ -35,6 +37,13 @@ previousTargetButton.addEventListener("click", function () {
     showRound();
 });
 nextTargetButton.addEventListener("click", function () {
+    if (currentRound.isCurrentTargetPartiallyEmpty()) {
+        showTargetSkipDialog();
+        return;
+    }
+    showNextTarget();
+});
+function showNextTarget() {
     currentTarget++;
     previousTargetButton.style.visibility = "visible";
     if (currentTarget == currentRound.numberOfTargets - 1) {
@@ -43,7 +52,7 @@ nextTargetButton.addEventListener("click", function () {
         saveCurrentRoundSpaceBehind.style.display = "block";
     }
     showRound();
-});
+}
 function showRound() {
     currentTargetLabel.innerText = "Target " + (currentTarget + 1);
     currentRound.refreshDisplayedData();
@@ -69,8 +78,11 @@ menuButton.addEventListener("click", function () {
         [].forEach.call(document.getElementsByClassName(button.id), function (page) {
             page.style.display = "flex";
         });
-        document.getElementById("errorBar").style.display = "none";
+        errorBar.style.display = "none";
+        skippedBar.style.display = "none";
         drawerScrim.click();
+
+        if (button.id == "currentRoundButton") currentRound.refreshDisplayedData();
     });
 });
 document.getElementById("previousRoundsButton").click();
@@ -78,17 +90,21 @@ document.getElementById("previousRoundsButton").click();
 
 
 function getArrowAndZoneFromPoints(points) {
-    if (points == null) return { "zone": null, "arrow": null, "zeroHits": false }
-    if (points == 0) return { "zone": null, "arrow": null, "zeroHits": true }
+    if (points == null) return { "zone": null, "arrow": null, "zeroHits": false, "skipped": false }
+    if (points == 0) return { "zone": null, "arrow": null, "zeroHits": true, "skipped": false }
+    if (points == "-") return { "zone": null, "arrow": null, "zeroHits": false, "skipped": true }
     points = points / 2;
     points = 10 - points;
     let zone = points % 3;
     let arrow = Math.floor(points / 3);
-    return { "zone": zone, "arrow": arrow, "zeroHits": false }
+    return { "zone": zone, "arrow": arrow, "zeroHits": false, "skipped": false }
 }
-function getPointsFromArrowAndZone(arrow, zone, zeroHits) {
+function getPointsFromArrowAndZone(arrow, zone, zeroHits, skipped) {
     if (zeroHits) return 0;
-    if (arrow == null || zone == null) return null;
+    if (arrow == null || zone == null) {
+        if (skipped) return "-";
+        else return null;
+    }
     let points = 4 + 2 * (2 - zone) + 6 * (2 - arrow);
     return points;
 }
@@ -125,7 +141,7 @@ function loadCurrentRound() {
         setTimeout(function () {
             currentRound.recalculatePoints();
             currentTarget = currentRound.earliestMissingTarget - 1;
-            nextTargetButton.click();
+            showNextTarget();
 
         }, 0);
     } else {
@@ -133,6 +149,18 @@ function loadCurrentRound() {
     }
 }
 loadCurrentRound();
+
+function showTargetSkipDialog() {
+    showDialog(skipTargetDialog);
+}
+skipTargetButton.addEventListener("click", function () {
+    currentRound.setCurrentTargetAsSkipped();
+    hideDialog(skipTargetDialog);
+    showNextTarget();
+})
+cancelSkipTargetButton.addEventListener("click", function () {
+    hideDialog(skipTargetDialog);
+})
 
 datePrefix.innerText = (new Date()).toLocaleDateString();
 addRoundButton.addEventListener("click", function () {

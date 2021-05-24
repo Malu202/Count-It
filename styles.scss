@@ -308,7 +308,7 @@ main {
     flex: 0 0 auto;
 }
 
-#errorBar {
+.errorBar {
     color: #fff;
     background-color: #f00;
     align-self: stretch;
@@ -319,13 +319,16 @@ main {
     height: auto !important;
     // margin-bottom: 4px;
     // order: -1;
-
-
     position: -webkit-sticky;
     /* Safari */
     position: sticky;
     top: 0;
     display: none;
+}
+
+#skippedBar {
+    color: #000;
+    background-color: $secondary-color;
 }
 
 

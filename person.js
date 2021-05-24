@@ -16,11 +16,11 @@ class Person {
 
 
         this.addButtonEvents();
-        this.refreshDisplayedData();
+        //this.refreshDisplayedData();
     }
-    refreshDisplayedData() {
+    refreshDisplayedData(skippedTargets, skippedAmount) {
         this.selectButtons();
-        this.recalculatePoints();
+        this.recalculatePoints(false, skippedTargets, skippedAmount);
     }
     selectButtons() {
         let currentArrow = null;
@@ -66,7 +66,8 @@ class Person {
                     if (j != i) self.overviewElement.getElementsByClassName("counterFab")[j].classList.add("fabDeselected");
                 }
 
-                self.recalculatePoints();
+                let skipped = currentRound.getSkippedTargets();
+                self.recalculatePoints(false, skipped.targets, skipped.amount);
                 currentRound.saveAsActive();
             });
         });
@@ -78,7 +79,7 @@ class Person {
             currentRound.saveAsActive();
         });
     }
-    recalculatePoints(roundFinished) {
+    recalculatePoints(roundFinished, skippedTargets, skippedTargetsAmount) {
         let arrow = null;
         let zone = null;
         [].forEach.call(this.overviewElement.getElementsByClassName("counterFab"), function (fab, i) {
@@ -88,15 +89,19 @@ class Person {
             }
         });
         let zeroHits = !this.overviewElement.getElementsByClassName("zeroFab")[0].classList.contains("fabDeselected");
-        let currentPoints = getPointsFromArrowAndZone(arrow, zone, zeroHits);
+        this.skipped = this.pointsArray[currentTarget] == "-";
+        let currentPoints = getPointsFromArrowAndZone(arrow, zone, zeroHits, this.skipped);
         this.pointsArray[currentTarget] = currentPoints;
         let newPointsString;
-        if (currentPoints != null) newPointsString = "+" + this.pointsArray[currentTarget];
+        if (skippedTargets[currentTarget] == "-") newPointsString = "-";
+        else if (currentPoints != null) newPointsString = "+" + this.pointsArray[currentTarget];
         else newPointsString = "";
         this.overviewElement.getElementsByClassName("newPoints")[0].innerText = newPointsString;
 
         let totalPoints = 0;
-        this.pointsArray.forEach(function (round) { totalPoints += round; })
+        this.pointsArray.forEach(function (round, i) {
+            if (skippedTargets[i] != "-") totalPoints += round;
+        })
         this.overviewElement.getElementsByClassName("totalPoints")[0].innerText = totalPoints;
 
 
@@ -105,8 +110,8 @@ class Person {
             if (this.pointsArray[i] != null) this.lastNonNullTarget = i;
         }
 
-        let average = totalPoints / (this.lastNonNullTarget + 1);
-        if (roundFinished) average = totalPoints / this.numberOfTargets;
+        let average = totalPoints / (this.lastNonNullTarget + 1 - skippedTargetsAmount);
+        if (roundFinished) average = totalPoints / (this.numberOfTargets - skippedTargetsAmount);
         this.overviewElement.getElementsByClassName("averagePoints")[0].innerText = round(average, 2);
 
 
