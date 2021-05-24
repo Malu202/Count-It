@@ -104,6 +104,7 @@ class Person {
         for (let i = 0; i < this.pointsArray.length; i++) {
             if (this.pointsArray[i] != null) this.lastNonNullTarget = i;
         }
+
         let average = totalPoints / (this.lastNonNullTarget + 1);
         if (roundFinished) average = totalPoints / this.numberOfTargets;
         this.overviewElement.getElementsByClassName("averagePoints")[0].innerText = round(average, 2);

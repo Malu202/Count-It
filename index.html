@@ -66,7 +66,6 @@
                 </div>
             </div>
             <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end page previousRoundsButton">
-
                 <button id="historyMenuButton"
                     class="mdc-icon-button material-icons mdc-top-app-bar__action-item--unbounded">more_vert</button>
                 <div id="menuBlueprint" class="mdc-menu mdc-menu-surface mdc-menu-surface--open blueprint">
@@ -78,6 +77,10 @@
                         <li class="mdc-list-divider" role="separator"></li>
                     </ul>
                 </div>
+            </div>
+            <div class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end page currentRoundButton">
+                <button id="skipTargetButton"
+                    class="mdc-icon-button material-icons mdc-top-app-bar__action-item--unbounded">close</button>
             </div>
         </div>
 
@@ -100,7 +103,7 @@
 
                 <div class="grid">
                     <button class="mdc-fab zeroFab fabDeselected">
-                        <span class="mdc-fab__icon">X</span>
+                        <span class="mdc-fab__icon material-icons">close</span>
                     </button>
                     <span class="label">Arrow: </span>
                     <button class="mdc-fab counterFab">
