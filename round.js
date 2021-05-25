@@ -10,11 +10,13 @@ let errorBar = document.getElementById("errorBar");
 
 
 class Round {
-    constructor(date, name, persons, numberOfTargets) {
+    constructor(date, name, persons, numberOfTargets, timestamps) {
         this.date = date;
         this.name = name.replace(PREVIOUS_ROUNDS_STORAGE_SEPERATOR, "");
         this.persons = persons;
         this.numberOfTargets = numberOfTargets;
+        if (timestamps) this.timestamps = timestamps;
+        else this.timestamps = [];
     }
 
 
@@ -26,6 +28,18 @@ class Round {
         this.overviewElement.getElementsByClassName("roundDate")[0].innerText = this.date.toLocaleDateString();
         this.overviewElement.getElementsByClassName("roundName")[0].innerText = this.name;
         this.overviewElement.getElementsByClassName("roundTotalTargets")[0].innerText = this.numberOfTargets + " Targets";
+
+        let minimum = Infinity;
+        let maximum = -Infinity;
+        for (let i = 0; i < this.timestamps.length; i++) {
+            if (this.timestamps[i] < minimum) minimum = this.timestamps[i];
+            if (this.timestamps[i] > maximum) maximum = this.timestamps[i];
+        }
+        let totalTimeDifference = maximum - minimum;
+        if (totalTimeDifference > 8.64e+7 || totalTimeDifference < 0) totalTimeDifference = "";
+        else totalTimeDifference = msToHoursAndMinutes(totalTimeDifference);
+
+        this.overviewElement.getElementsByClassName("roundTotalTime")[0].innerText = totalTimeDifference;
 
 
         //this.overviewElement.getElementsByClassName("roundTotalTime")[0].innerText = "3h 25min";
@@ -86,6 +100,11 @@ class Round {
         else this.hideMissingPointsError();
         if (skipped.targets[currentTarget] == "-") skippedBar.style.display = "block";
         else skippedBar.style.display = "none";
+    }
+    setTimestampForTarget(target, timestamp) {
+        if (this.timestamps[target] == null) {
+            this.timestamps[target] = timestamp;
+        }
     }
     hideMissingPointsError() {
         errorBar.style.display = "none";
@@ -183,6 +202,10 @@ class Round {
     toTextOutput() {
         let outputString = "";
         outputString += this.date.toDateString() + ": " + this.name + '\n';
+
+        let dateColumn = this.timestamps.length > 0;
+        if (dateColumn) outputString += "Time, "
+
         for (let i = 0; i < this.persons.length; i++) {
             if (i != 0) outputString += " ";
             outputString += this.persons[i].name + ",";
@@ -191,6 +214,8 @@ class Round {
         outputString += '\n';
 
         for (let j = 0; j < this.numberOfTargets; j++) {
+            if (dateColumn && this.timestamps[j]) outputString += timeString(this.timestamps[j]) + ", ";
+            if (dateColumn && !this.timestamps[j]) outputString += "null, ";
             for (let i = 0; i < this.persons.length; i++) {
                 if (i != 0) outputString += " ";
                 outputString += this.persons[i].pointsArray[j] + ",";
@@ -210,26 +235,70 @@ function createRoundFromString(string) {
     let date = lines[0].substr(0, lines[0].indexOf(':'));
     let name = lines[0].substring(date.length + 2);
 
-    let personNames = lines[1].split(',');
-
+    let columnNames = lines[1].split(',');
+    let nameOffset = 0;
+    let timeColumn = null;
+    for (let i = 0; i < columnNames.length; i++) {
+        let columnName = columnNames[i].replace(" ", "");
+        if (columnName == "Time") {
+            nameOffset++;
+            timeColumn = i;
+        }
+    }
+    // let personNames = columnNames.slice(nameOffset);
     let points = [];
     for (let i = 2; i < lines.length; i++) {
-        // points.push(lines[i].split(','));
         points[i - 2] = lines[i].split(',');
     }
     let persons = [];
-    for (let i = 0; i < personNames.length; i++) {
+    for (let i = nameOffset; i < columnNames.length; i++) {
         let personPoints = [];
         for (let j = 0; j < points.length; j++) {
             if (points[j][i].includes("undefined") || points[j][i].includes("null")) personPoints[j] = null;
             else if (points[j][i].includes("-")) personPoints[j] = "-";
             else personPoints[j] = parseInt(points[j][i]);
         }
-        let personName = personNames[i];
+        let personName = columnNames[i];
         if (personName.substring(0, 1) == " ") personName = personName.substring(1);
         persons.push(new Person(personName, personPoints, lines.length - 2));
     }
+    let timestamps = null;
+    if (timeColumn != null) {
+        timestamps = [];
+        for (let j = 0; j < points.length; j++) {
+            if (points[j][timeColumn].includes("null")) {
+                timestamps[j] = null;
+            } else {
+                let time = points[j][timeColumn].replace(" ", "").split(":");
+                timestamps[j] = ((new Date(date)).addHours(time[0])).addMinutes(time[1])
+            }
+        }
+    }
 
-    currentRound = new Round(new Date(date), name, persons, points.length);
+    currentRound = new Round((new Date(date)), name, persons, points.length, timestamps);
+    if (name == "WTFFF") {
+        console.log("hi")
+    }
     return currentRound;
+}
+
+Date.prototype.addHours = function (h) {
+    this.setTime(this.getTime() + (h * 60 * 60 * 1000));
+    return this;
+}
+Date.prototype.addMinutes = function (m) {
+    this.setTime(this.getTime() + (m * 60 * 1000));
+    return this;
+}
+function timeString(date) {
+    let mins = date.getMinutes();
+    let hours = date.getHours();
+    if (mins < 10) mins = "0" + mins;
+    if (hours < 10) hours = "0" + hours;
+    return hours + ":" + mins;
+}
+function msToHoursAndMinutes(ms) {
+    var d = new Date(1000 * Math.round(ms / 1000)); // round to nearest second
+    function pad(i) { return ('0' + i).slice(-2); }
+    return d.getUTCHours() + ':' + pad(d.getUTCMinutes());
 }

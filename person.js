@@ -67,7 +67,8 @@ class Person {
                 }
 
                 let skipped = currentRound.getSkippedTargets();
-                self.recalculatePoints(false, skipped.targets, skipped.amount);
+                self.updateAfterButtonPress(false, skipped.targets, skipped.amount);
+                currentRound.setTimestampForTarget(currentTarget, new Date());
                 currentRound.saveAsActive();
             });
         });
@@ -75,11 +76,13 @@ class Person {
         this.zeroFab.addEventListener("click", function () {
             self.toggleZeroHitsVisually();
 
-            self.recalculatePoints();
+            let skipped = currentRound.getSkippedTargets();
+            self.updateAfterButtonPress(false, skipped.targets, skipped.amount);
+            currentRound.setTimestampForTarget(currentTarget, new Date());
             currentRound.saveAsActive();
         });
     }
-    recalculatePoints(roundFinished, skippedTargets, skippedTargetsAmount) {
+    updateAfterButtonPress(roundFinished, skippedTargets, skippedTargetsAmount) {
         let arrow = null;
         let zone = null;
         [].forEach.call(this.overviewElement.getElementsByClassName("counterFab"), function (fab, i) {
@@ -92,9 +95,12 @@ class Person {
         this.skipped = this.pointsArray[currentTarget] == "-";
         let currentPoints = getPointsFromArrowAndZone(arrow, zone, zeroHits, this.skipped);
         this.pointsArray[currentTarget] = currentPoints;
+        this.recalculatePoints(roundFinished, skippedTargets, skippedTargetsAmount);
+    }
+    recalculatePoints(roundFinished, skippedTargets, skippedTargetsAmount) {
         let newPointsString;
         if (skippedTargets[currentTarget] == "-") newPointsString = "-";
-        else if (currentPoints != null) newPointsString = "+" + this.pointsArray[currentTarget];
+        else if (this.pointsArray[currentTarget] != null) newPointsString = "+" + this.pointsArray[currentTarget];
         else newPointsString = "";
         this.overviewElement.getElementsByClassName("newPoints")[0].innerText = newPointsString;
 

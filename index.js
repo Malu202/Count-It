@@ -30,10 +30,7 @@ let currentRound;
 
 previousTargetButton.addEventListener("click", function () {
     currentTarget--;
-    nextTargetButton.style.visibility = "visible";
-    saveCurrentRoundButton.style.display = "none";
-    saveCurrentRoundSpaceBehind.style.display = "none";
-    if (currentTarget == 0) previousTargetButton.style.visibility = "hidden";
+    updateNavigationElements();
     showRound();
 });
 nextTargetButton.addEventListener("click", function () {
@@ -45,13 +42,22 @@ nextTargetButton.addEventListener("click", function () {
 });
 function showNextTarget() {
     currentTarget++;
-    previousTargetButton.style.visibility = "visible";
+    updateNavigationElements();
+    showRound();
+}
+function updateNavigationElements() {
     if (currentTarget == currentRound.numberOfTargets - 1) {
         nextTargetButton.style.visibility = "hidden";
         saveCurrentRoundButton.style.display = "block";
         saveCurrentRoundSpaceBehind.style.display = "block";
     }
-    showRound();
+    else {
+        nextTargetButton.style.visibility = "visible";
+        saveCurrentRoundButton.style.display = "none";
+        saveCurrentRoundSpaceBehind.style.display = "none";
+    }
+    if (currentTarget == 0) previousTargetButton.style.visibility = "hidden";
+    else previousTargetButton.style.visibility = "visible";
 }
 function showRound() {
     currentTargetLabel.innerText = "Target " + (currentTarget + 1);
@@ -138,12 +144,17 @@ function loadCurrentRound() {
         document.getElementById("currentRoundButton").click();
         currentRound = createRoundFromString(currentRoundString);
         currentRound.createActiveRoundElements();
-        setTimeout(function () {
-            currentRound.recalculatePoints();
-            currentTarget = currentRound.earliestMissingTarget - 1;
-            showNextTarget();
 
-        }, 0);
+        // setTimeout(function () {
+        //     currentRound.recalculatePoints();
+        //     currentTarget = currentRound.earliestMissingTarget - 1;
+        //     showNextTarget();
+
+        // }, 0);
+        currentRound.refreshDisplayedData();
+        currentTarget = currentRound.earliestMissingTarget;
+        updateNavigationElements();
+        showRound();
     } else {
         document.getElementById("currentRoundButton").classList.add("disabled");
     }
@@ -273,6 +284,7 @@ function round(value, decimals) {
     //round
     return Number(Math.round(valueString + 'e' + (power + decimals)) + 'e-' + (decimals));
 }
+
 
 cancelFailsafeButton.addEventListener("click", function () {
     hideDialog(deletionFailsafe);
