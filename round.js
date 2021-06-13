@@ -276,7 +276,7 @@ function createRoundFromString(string) {
     }
 
     currentRound = new Round((new Date(date)), name, persons, points.length, timestamps);
-    if (name == "WTFFF") {
+    if (name == "skippersen-.-") {
         console.log("hi")
     }
     return currentRound;

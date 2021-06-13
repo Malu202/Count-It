@@ -213,6 +213,10 @@ startNewRoundButton.addEventListener("click", function () {
 });
 
 saveCurrentRoundButton.addEventListener("click", function () {
+    if (currentRound.isCurrentTargetPartiallyEmpty()) {
+        currentRound.setCurrentTargetAsSkipped();
+    }
+
     let currentRoundString = currentRound.toTextOutput();
     currentRound.removeActiveRoundElements();
     currentRound.save();
