@@ -322,3 +322,9 @@ if ('serviceWorker' in navigator) {
         console.log("sending share ready")
     });
 };
+
+
+window.onerror = function (msg, url, linenumber, columnNo, error) {
+    alert(msg + '\n' + url + '\n Line Number: ' + linenumber + ", " + columnNo + "\n" + JSON.stringify(error));
+    return false;
+}
