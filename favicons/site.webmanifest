@@ -1,7 +1,7 @@
 {
     "name": "Count-It",
     "short_name": "Count-It",
-    "start_url": "/",
+    "start_url": "/Count-It",
     "prefer_related_applications": false,
     "icons": [
         {
