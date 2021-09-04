@@ -10,5 +10,21 @@
     ],
     "theme_color": "#3e2723",
     "background_color": "#3e2723",
-    "display": "standalone"
+    "display": "standalone",
+    "share_target": {
+        "action": "/shareTarget",
+        "method": "POST",
+        "enctype": "multipart/form-data",
+        "params": {
+            "files": [
+                {
+                    "name": "json",
+                    "accept": [
+                        "application/json",
+                        ".json"
+                    ]
+                }
+            ]
+        }
+    }
 }

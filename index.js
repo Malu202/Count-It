@@ -293,3 +293,20 @@ function round(value, decimals) {
 cancelFailsafeButton.addEventListener("click", function () {
     hideDialog(deletionFailsafe);
 });
+
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js', {}).then(function (reg) {
+        // Registrierung erfolgreich
+        console.log('Registrierung erfolgreich. Scope ist ' + reg.scope);
+    }).catch(function (error) {
+        // Registrierung fehlgeschlagen
+        console.log('Registrierung fehlgeschlagen mit ' + error);
+    });
+    navigator.serviceWorker.addEventListener('message', event => {
+        console.log(event.data.msg, event.data.url);
+    });
+    navigator.serviceWorker.ready.then(registration => {
+        registration.active.postMessage("share-ready");
+        console.log("sending share ready")
+    });
+};

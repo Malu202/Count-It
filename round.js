@@ -230,6 +230,8 @@ class Round {
 }
 
 function createRoundFromString(string) {
+    let _3dSkillboardImport = convert3dSkillBoard(string);
+    if (_3dSkillboardImport) string = _3dSkillboardImport;
     let lines = string.split('\n');
     if (lines.length < 3) return null;
     let date = lines[0].substr(0, lines[0].indexOf(':'));
@@ -302,3 +304,236 @@ function msToHoursAndMinutes(ms) {
     function pad(i) { return ('0' + i).slice(-2); }
     return d.getUTCHours() + ':' + pad(d.getUTCMinutes());
 }
+
+function convert3dSkillBoard(jsonExport) {
+    try {
+        // jsonExport = Importinger;
+        jsonExport = JSON.parse(jsonExport);
+        let output = "";
+        let date = (new Date(jsonExport.eventdate)).toDateString();
+        let location = jsonExport.place.replace(/\d+/g, '').trim();
+        output += date + ": " + location + "\n";
+        for (let i = 0; i < jsonExport.players.length; i++) {
+            output += jsonExport.players[i].name;
+            if (i < jsonExport.players.length - 1) output += ", ";
+        }
+        output += "\n";
+        for (let j = 0; j < jsonExport.target.length; j++) {
+            for (let i = 0; i < jsonExport.players.length; i++) {
+                if (jsonExport.players[i].eventresult[j].resulttype == "N") {
+                    output += jsonExport.players[i].eventresult[j].points;
+                } else {
+                    output += "-";
+                }
+                if (i < jsonExport.players.length - 1) output += ", ";
+            }
+            if (j < jsonExport.target.length - 1) output += "\n";
+        }
+        return output;
+    } catch (error) {
+        return false;
+    }
+}
+
+
+let Importinger = `{
+    "name": "Reuhof Parcours - BSV - Pillichsdorf",
+    "place": "2211 Pillichsdorf",
+    "onlineID": "AT_2211_01",
+    "target": [
+      {
+        "name": " ",
+        "idx": 1
+      },
+      {
+        "name": " ",
+        "idx": 2
+      },
+      {
+        "name": " ",
+        "idx": 3
+      },
+      {
+        "name": " ",
+        "idx": 4
+      },
+      {
+        "name": " ",
+        "idx": 5
+      },
+      {
+        "name": " ",
+        "idx": 6
+      },
+      {
+        "name": " ",
+        "idx": 7
+      },
+      {
+        "name": " ",
+        "idx": 8
+      }
+    ],
+    "eventname": "Reuhof Parcours - BSV - Pillichsdorf",
+    "eventinsstmp": 1630606743984,
+    "eventtype": "N",
+    "eventobjectId": null,
+    "eventdate": "2021-09-02",
+    "eventtournamentid": null,
+    "eventtournamentroundid": null,
+    "eventtournamentgroupid": null,
+    "players": [
+      {
+        "name": "martin",
+        "sex": 0,
+        "email": "",
+        "objectId": null,
+        "coutypeonlineid": "3P3Z_20_f",
+        "counttypeid": 1,
+        "arr2trgt": 1,
+        "mxtrgtpts": 20,
+        "eventresult": [
+          {
+            "objectId": null,
+            "arrownr": 2,
+            "kill": 1,
+            "targetid": 1,
+            "points": 14,
+            "resulttype": "N"
+          },
+          {
+            "objectId": null,
+            "arrownr": 3,
+            "kill": 1,
+            "targetid": 2,
+            "points": 8,
+            "resulttype": "N"
+          },
+          {
+            "objectId": null,
+            "arrownr": 0,
+            "kill": 0,
+            "targetid": 3,
+            "points": 0,
+            "resulttype": "X"
+          },
+          {
+            "objectId": null,
+            "arrownr": 0,
+            "kill": 0,
+            "targetid": 4,
+            "points": 0,
+            "resulttype": "X"
+          },
+          {
+            "objectId": null,
+            "arrownr": 3,
+            "kill": 3,
+            "targetid": 5,
+            "points": 4,
+            "resulttype": "N"
+          },
+          {
+            "objectId": null,
+            "arrownr": 3,
+            "kill": 2,
+            "targetid": 6,
+            "points": 6,
+            "resulttype": "N"
+          },
+          {
+            "objectId": null,
+            "arrownr": 4,
+            "kill": 0,
+            "targetid": 7,
+            "points": 0,
+            "resulttype": "N"
+          },
+          {
+            "objectId": null,
+            "arrownr": 3,
+            "kill": 1,
+            "targetid": 8,
+            "points": 8,
+            "resulttype": "N"
+          }
+        ]
+      },
+      {
+        "name": "Astrid",
+        "sex": 1,
+        "email": "",
+        "objectId": null,
+        "coutypeonlineid": "3P3Z_20_f",
+        "counttypeid": 1,
+        "arr2trgt": 1,
+        "mxtrgtpts": 20,
+        "eventresult": [
+          {
+            "objectId": null,
+            "arrownr": 1,
+            "kill": 1,
+            "targetid": 1,
+            "points": 20,
+            "resulttype": "N"
+          },
+          {
+            "objectId": null,
+            "arrownr": 2,
+            "kill": 1,
+            "targetid": 2,
+            "points": 14,
+            "resulttype": "N"
+          },
+          {
+            "objectId": null,
+            "arrownr": 0,
+            "kill": 0,
+            "targetid": 3,
+            "points": 0,
+            "resulttype": "X"
+          },
+          {
+            "objectId": null,
+            "arrownr": 0,
+            "kill": 0,
+            "targetid": 4,
+            "points": 0,
+            "resulttype": "X"
+          },
+          {
+            "objectId": null,
+            "arrownr": 3,
+            "kill": 3,
+            "targetid": 5,
+            "points": 4,
+            "resulttype": "N"
+          },
+          {
+            "objectId": null,
+            "arrownr": 3,
+            "kill": 2,
+            "targetid": 6,
+            "points": 6,
+            "resulttype": "N"
+          },
+          {
+            "objectId": null,
+            "arrownr": 4,
+            "kill": 0,
+            "targetid": 7,
+            "points": 0,
+            "resulttype": "N"
+          },
+          {
+            "objectId": null,
+            "arrownr": 3,
+            "kill": 1,
+            "targetid": 8,
+            "points": 8,
+            "resulttype": "N"
+          }
+        ]
+      }
+    ]
+  }`;
