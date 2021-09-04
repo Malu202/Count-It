@@ -40,6 +40,11 @@
                     <i class="material-icons mdc-list-item__graphic">history</i>
                     <span class="mdc-list-item__text">Previous Rounds</span>
                 </a>
+                <a id="statisticsButton" class="mdc-list-item">
+                    <span class="mdc-list-item__ripple"></span>
+                    <i class="material-icons mdc-list-item__graphic">trending_up</i>
+                    <span class="mdc-list-item__text">Statistics</span>
+                </a>
             </nav>
         </div>
     </aside>
@@ -62,6 +67,9 @@
                     </div>
                     <div class="page previousRoundsButton">
                         History
+                    </div>
+                    <div class="page statisticsButton">
+                        Statistics
                     </div>
                 </div>
             </div>
@@ -86,9 +94,6 @@
         <div class="errorBar" id="skippedBar">Target skipped (Points not counted)</div>
 
         <div id="countingPage" class="page currentRoundButton">
-
-
-
             <div id="personCounterBlueprint" class="mdc-card personCounter blueprint">
                 <div class="personDetails">
                     <span class="material-icons avatar">face</span>
@@ -157,6 +162,25 @@
                 <span class="mdc-fab__icon material-icons">add</span>
             </button>
         </div>
+        <div id="statisticsPage" class="page statisticsButton">
+            <div id="statisticsContainer" class="mdc-card">
+
+                <div id="statisticsSettings">
+                    <div class="mdc-select">
+                        </i><select id="statisticSettingValue" class="mdc-select__native-control">
+                            <option value="points">Points (Total)</option>
+                        </select></div>
+                    <div class="mdc-select">
+                        </i><select id="statisticSettingRound" class="mdc-select__native-control">
+
+                        </select></div>
+                </div>
+                <canvas id="statisticsCanvas" width="400" height="400"></canvas>
+            </div>
+        </div>
+
+
+
         <div id="newRoundDialog" class="mdc-dialog">
             <div class="mdc-dialog__container">
                 <div class="mdc-dialog__surface">
@@ -307,10 +331,12 @@
 
     </main>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 <script src="menu.js"></script>
 <script src="person.js"></script>
 <script src="round.js"></script>
 <script src="index.js"></script>
 <script src="history.js"></script>
+<script src="statistics.js"></script>
 
 </html>

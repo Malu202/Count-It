@@ -402,3 +402,30 @@ main {
     margin-bottom: 16px;
     margin-top: 4px;
 }
+
+#statisticsContainer {
+    max-width: 700px;
+    width: 100%;
+}
+
+#statisticsPage {
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#statisticsSettings {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 4px;
+    height: 32px;
+}
+
+#statisticsSettings * {
+    flex: 0 1 auto;
+}
+
+#statisticsContainer {
+    padding: 8px;
+}

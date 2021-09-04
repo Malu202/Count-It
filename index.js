@@ -91,8 +91,10 @@ menuButton.addEventListener("click", function () {
         if (button.id == "currentRoundButton") currentRound.refreshDisplayedData();
     });
 });
-document.getElementById("previousRoundsButton").click();
+
+//document.getElementById("previousRoundsButton").click();
 // document.getElementById("currentRoundButton").click();
+document.getElementById("statisticsButton").click();
 
 
 function getArrowAndZoneFromPoints(points) {
@@ -116,11 +118,12 @@ function getPointsFromArrowAndZone(arrow, zone, zeroHits, skipped) {
 }
 
 let previousRoundsString;
+let previousRounds = [];
 function loadPreviousRounds() {
     previousRoundsString = localStorage.getItem(PREVIOUS_ROUNDS_STORAGE_ID);
     if (previousRoundsString != null) {
         previousRoundsString = previousRoundsString.split(PREVIOUS_ROUNDS_STORAGE_SEPERATOR);
-        let previousRounds = [];
+        previousRounds = [];
         for (let i = 0; i < previousRoundsString.length; i++) {
             let previousRound = createRoundFromString(previousRoundsString[i]);
             previousRounds.push(previousRound);

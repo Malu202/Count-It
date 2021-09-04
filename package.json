@@ -9,7 +9,11 @@
   },
   "author": "",
   "devDependencies": {
-    "gulp": "^4.0.2",
-    "material-components-web": "^11.0.0"
+    "gulp": "4.*",
+    "gulp-dart-sass": "1.*",
+    "gulp-sass": "*",
+    "material-components-web": "12.0.0",
+    "node-sass": "*",
+    "sass": "*"
   }
 }
