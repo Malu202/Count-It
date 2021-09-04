@@ -31,13 +31,6 @@
                         ".json",
                         ".*"
                     ]
-                },
-                {
-                    "name": "csv",
-                    "accept": [
-                        "text/csv",
-                        ".csv"
-                    ]
                 }
             ]
         }

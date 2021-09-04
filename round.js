@@ -278,9 +278,6 @@ function createRoundFromString(string) {
     }
 
     currentRound = new Round((new Date(date)), name, persons, points.length, timestamps);
-    if (name == "skippersen-.-") {
-        console.log("hi")
-    }
     return currentRound;
 }
 
@@ -333,7 +330,4 @@ function convert3dSkillBoard(jsonExport) {
     } catch (error) {
         return false;
     }
-}
-function importFrom3dSkillboard(string) {
-    createRoundFromString(string);
 }
