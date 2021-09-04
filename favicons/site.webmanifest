@@ -24,8 +24,17 @@
                     "name": "json",
                     "accept": [
                         "*/*",
+                        "text/*",
                         "application/json",
-                        ".json"
+                        ".json",
+                        ".*"
+                    ]
+                },
+                {
+                    "name": "csv",
+                    "accept": [
+                        "text/csv",
+                        ".csv"
                     ]
                 }
             ]
