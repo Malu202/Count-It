@@ -4,14 +4,16 @@ self.addEventListener('fetch', event => {
     // registered "action" URL, respond to it.
     if (event.request.method === 'POST' &&
         url.pathname === '/Count-It/share-target') {
-        event.respondWith((async () => {
-            const formData = await event.request.formData();
-            const link = formData.get('link') || '';
-            // const responseUrl = await saveBookmark(link);
-            serveShareTarget(event);
-            // return Response.redirect(responseUrl, 303);
-            return;
-        })());
+        console.log("Sw checkt was.")
+        serveShareTarget(event);
+        // event.respondWith((async () => {
+        //     const formData = await event.request.formData();
+        //     const link = formData.get('link') || '';
+        //     // const responseUrl = await saveBookmark(link);
+        //     serveShareTarget(event);
+        //     // return Response.redirect(responseUrl, 303);
+        //     return;
+        // })());
     }
 });
 
@@ -19,7 +21,8 @@ function serveShareTarget(event) {
     const dataPromise = event.request.formData();
 
     // Redirect so the user can refresh the page without resending data.
-    event.respondWith(Response.redirect('/?share-target'));
+    console.log("jetzt kommt der redirect");
+    event.respondWith(Response.redirect('/Count-It/?share-target'));
 
     event.waitUntil(
         (async function () {
