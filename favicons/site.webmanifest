@@ -1,6 +1,8 @@
 {
     "name": "Count-It",
     "short_name": "Count-It",
+    "start_url": "/",
+    "prefer_related_applications": false,
     "icons": [
         {
             "src": "android-chrome-192x192.png",
