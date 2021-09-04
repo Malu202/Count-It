@@ -309,7 +309,7 @@ if ('serviceWorker' in navigator) {
         let reader = new FileReader();
         // Setup the callback event to run when the file is read
         reader.onload = function (e) {
-            console.log(e.target.result);
+            importFrom3dSkillboard(e.target.result);
         }
         // Read the file
         reader.readAsText(event.data.file);

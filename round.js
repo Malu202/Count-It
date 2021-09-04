@@ -334,6 +334,9 @@ function convert3dSkillBoard(jsonExport) {
         return false;
     }
 }
+function importFrom3dSkillboard(string) {
+    createRoundFromString(string);
+}
 
 
 let Importinger = `{
