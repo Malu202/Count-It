@@ -35,7 +35,7 @@ function serveShareTarget(event) {
             // const file = data.get('json');
             console.log("sw:")
             console.log(data)
-            const file = data.get('file');
+            const file = data.get('json');
             client.postMessage({ file, action: 'load-image' });
         })(),
     );
