@@ -25,11 +25,8 @@
                 {
                     "name": "json",
                     "accept": [
-                        "*/*",
-                        "text/*",
                         "application/json",
-                        ".json",
-                        ".*"
+                        ".json"
                     ]
                 }
             ]

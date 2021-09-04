@@ -64,7 +64,7 @@ importHistoryButton.addEventListener("click", function () {
 function importFrom3dSkillboard(string) {
     let convertedString = convert3dSkillBoard(string);
     if (convertedString) {
-        importHistoryTextArea.value = createRoundFromString(string);
+        importHistoryTextArea.value = convertedString;
         importHistory();
     }
 }
