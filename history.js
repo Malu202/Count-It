@@ -4,9 +4,10 @@ let importHistoryButton = document.getElementById("importHistoryButton");
 let importHistoryTextArea = document.getElementById("importHistoryTextArea");
 
 let historyMenuButton = document.getElementById("historyMenuButton");
-let historyMenu = new Menu(historyMenuButton, ["Import History", "Export History"], [
+let historyMenu = new Menu(historyMenuButton, ["Import History", "Export History", "Delete History"], [
     importHistory,
-    exportHistory
+    exportHistory,
+    deleteHistory
 ]);
 
 function importHistory() {
@@ -14,6 +15,15 @@ function importHistory() {
 }
 function exportHistory() {
     copyTextToClipboard(localStorage.getItem(PREVIOUS_ROUNDS_STORAGE_ID));
+}
+function deleteHistory() {
+    showDialog(deletionFailsafe);
+    deleteFailsafeButton.onclick = function () {
+        if (deletionFailsafeInput.value == "DELETE") {
+            localStorage.removeItem(PREVIOUS_ROUNDS_STORAGE_ID);
+            window.location.reload(false);
+        }
+    };
 }
 
 cancelImportHistoryButton.addEventListener("click", function () {
