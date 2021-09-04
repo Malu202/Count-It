@@ -308,7 +308,9 @@ if ('serviceWorker' in navigator) {
         // Create a new FileReader() object
         let reader = new FileReader();
         // Setup the callback event to run when the file is read
-        reader.onload = test;//createRoundFromString;
+        reader.onload = function (e) {
+            console.log(e.target.result);
+        }
         // Read the file
         reader.readAsText(event.data.file);
     });
@@ -317,7 +319,3 @@ if ('serviceWorker' in navigator) {
         console.log("sending share ready")
     });
 };
-
-function test(text) {
-    console.log(text);
-}
