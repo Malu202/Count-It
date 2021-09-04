@@ -304,13 +304,13 @@ if ('serviceWorker' in navigator) {
     });
     navigator.serviceWorker.addEventListener('message', event => {
         console.log(event.data.msg, event.data.url);
-        console.log(event.file);
+        console.log(event.data.file);
         // Create a new FileReader() object
         let reader = new FileReader();
         // Setup the callback event to run when the file is read
         reader.onload = test;//createRoundFromString;
         // Read the file
-        reader.readAsText(file.files[0]);
+        reader.readAsText(event.data.file);
     });
     navigator.serviceWorker.ready.then(registration => {
         registration.active.postMessage("share-ready");
