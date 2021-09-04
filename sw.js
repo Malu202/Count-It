@@ -27,8 +27,8 @@ function serveShareTarget(event) {
     event.waitUntil(
         (async function () {
             // The page sends this message to tell the service worker it's ready to receive the file.
-            await nextMessage('share-ready');
-            console.log("received share-ready")
+            //await nextMessage('share-ready');
+            //console.log("received share-ready")
 
             const client = await self.clients.get(event.resultingClientId);
             const data = await dataPromise;
