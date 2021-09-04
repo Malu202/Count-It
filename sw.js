@@ -7,7 +7,7 @@ self.addEventListener('fetch', event => {
         event.respondWith((async () => {
             const formData = await event.request.formData();
             const link = formData.get('link') || '';
-            const responseUrl = await saveBookmark(link);
+            // const responseUrl = await saveBookmark(link);
             serveShareTarget(event);
             // return Response.redirect(responseUrl, 303);
             return;
