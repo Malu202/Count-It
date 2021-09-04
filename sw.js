@@ -3,7 +3,7 @@ self.addEventListener('fetch', event => {
     // If this is an incoming POST request for the
     // registered "action" URL, respond to it.
     if (event.request.method === 'POST' &&
-        url.pathname === '/share-target') {
+        url.pathname === 'Count-It/share-target') {
         event.respondWith((async () => {
             const formData = await event.request.formData();
             const link = formData.get('link') || '';
