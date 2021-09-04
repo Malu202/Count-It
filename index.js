@@ -295,7 +295,7 @@ cancelFailsafeButton.addEventListener("click", function () {
 });
 
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js', {}).then(function (reg) {
+    navigator.serviceWorker.register('/Count-It/sw.js', {}).then(function (reg) {
         // Registrierung erfolgreich
         console.log('Registrierung erfolgreich. Scope ist ' + reg.scope);
     }).catch(function (error) {
