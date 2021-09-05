@@ -6,7 +6,7 @@ let ctx = canvas.getContext("2d");
 
 let statisticSettingRound = document.getElementById("statisticSettingRound");
 let statisticSettingValue = document.getElementById("statisticSettingValue");
-
+let errorLog = "Error log: \n";
 
 statisticsButton.addEventListener("click", loadStatistics);
 
@@ -22,6 +22,7 @@ function fillHistoryDropdown() {
         option.innerText = previousRounds[i].date.toLocaleDateString() + ": " + previousRounds[i].name;
         statisticSettingRound.appendChild(option);
     }
+    errorLog += "filled history Dropbdown"
 }
 statisticSettingRound.addEventListener("change", drawSelectedStatistic);
 statisticSettingValue.addEventListener("change", drawSelectedStatistic);
@@ -33,27 +34,28 @@ function drawSelectedStatistic() {
 
 let myChart;
 function drawStatistic(round) {
-    let datasets = [];
+    let personDatasets = [];
+
     for (let i = round.persons.length - 1; i >= 0; i--) {
-        datasets.push({
+        personDatasets.push({
             data: pointsArrayToTotalArray(round.persons[i].pointsArray),
             label: round.persons[i].name,
             borderColor: colorCycle[i % colorCycle.length],
             backgroundColor: colorCycle[i % colorCycle.length]
         });
     }
-
     let targets = [];
-    for (let i = 1; i <= round.numberOfTargets + 1; i++) {
+    for (let i = 1; i <= round.numberOfTargets; i++) {
         targets.push(i);
     }
 
     if (myChart == null) {
+
         myChart = new Chart(ctx, {
             type: 'line',
             data: {
                 labels: targets,
-                datasets: datasets
+                datasets: personDatasets
             },
             options: {
                 scales: {
@@ -65,7 +67,7 @@ function drawStatistic(round) {
         });
     } else {
         myChart.data.labels = targets;
-        myChart.data.datasets = datasets;
+        myChart.data.datasets = personDatasets;
         myChart.update();
     }
 }

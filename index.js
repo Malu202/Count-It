@@ -325,6 +325,7 @@ if ('serviceWorker' in navigator) {
 
 
 window.onerror = function (msg, url, linenumber, columnNo, error) {
+    //alert(errorLog)
     alert(msg + '\n' + url + '\n Line Number: ' + linenumber + ", " + columnNo + "\n" + JSON.stringify(error));
     return false;
 }
