@@ -92,9 +92,9 @@ menuButton.addEventListener("click", function () {
     });
 });
 
-//document.getElementById("previousRoundsButton").click();
+document.getElementById("previousRoundsButton").click();
 // document.getElementById("currentRoundButton").click();
-setTimeout(function () { document.getElementById("statisticsButton").click(); }, 0);
+//setTimeout(function () { document.getElementById("statisticsButton").click(); }, 0);
 
 
 function getArrowAndZoneFromPoints(points) {
