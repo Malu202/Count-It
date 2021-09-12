@@ -6,7 +6,10 @@ let roundOverviewBlueprint = document.getElementById("roundOverviewBlueprint");
 let historyPage = document.getElementById("history");
 let skippedBar = document.getElementById("skippedBar");
 let errorBar = document.getElementById("errorBar");
-
+let roundDialogDetails = document.getElementById("roundDetailsDialog");
+let roundDetailsDialogButton = document.getElementById("roundDetailsDialogButton");
+let roundDetailsDialogTitle = document.getElementById("roundDetailsDialogTitle");
+let roundDetailsDialogContent = document.getElementById("roundDetailsDialogContent");
 
 
 class Round {
@@ -71,7 +74,7 @@ class Round {
         let self = this;
         this.menu = new Menu(this.menuButton, ["Export", "Show Details", "Delete"], [
             function () { copyTextToClipboard(self.toTextOutput()); },
-            function () { alert(self.toTextOutput()); },
+            function () { showRoundDetails(self); },
             function () { self.delete() }
         ]);
         historyPage.appendChild(this.overviewElement);
@@ -330,4 +333,79 @@ function convert3dSkillBoard(jsonExport) {
     } catch (error) {
         return false;
     }
+}
+
+
+function showRoundDetails(self) {
+    //alert(self.toTextOutput());
+    roundDetailsDialogTitle.innerText = self.date.toLocaleDateString() + ": " + self.name;
+    roundDetailsDialogContent.innerText = "";
+    let grid = document.createElement("div");
+    grid.classList.add("grid");
+
+    let row = 1;
+    for (let i = self.persons.length - 1; i >= 0; i--) {
+        let headline = addGridElement(grid, self.persons[i].name + " (" + self.persons[i].totalPoints + ", Ø" + round(self.persons[i].average, 2) + ")", row++, 1, null, "last-line");
+        // headline.style.justifySelf = "center";
+        headline.style.fontWeight = "bold";
+        headline.style.marginTop = "8px"
+        let ArrowCountPerCategory = getArrowCountPerCategory(self.persons[i]);
+        addGridElement(grid, "1:", row, 1);
+        addGridElement(grid, ArrowCountPerCategory["20"] + ArrowCountPerCategory["18"] + ArrowCountPerCategory["16"], row, 2);
+        addGridElement(grid, "(" + ArrowCountPerCategory["20"], row, 3);
+        addGridElement(grid, ArrowCountPerCategory["18"], row, 4);
+        addGridElement(grid, ArrowCountPerCategory["16"] + ")", row++, 5);
+        addGridElement(grid, "2:", row, 1);
+        addGridElement(grid, ArrowCountPerCategory["14"] + ArrowCountPerCategory["12"] + ArrowCountPerCategory["10"], row, 2);
+        addGridElement(grid, "(" + ArrowCountPerCategory["14"], row, 3);
+        addGridElement(grid, ArrowCountPerCategory["12"], row, 4);
+        addGridElement(grid, ArrowCountPerCategory["10"] + ")", row++, 5);
+
+        addGridElement(grid, "3:", row, 1);
+        addGridElement(grid, ArrowCountPerCategory["8"] + ArrowCountPerCategory["6"] + ArrowCountPerCategory["4"], row, 2);
+        addGridElement(grid, "(" + ArrowCountPerCategory["8"], row, 3);
+        addGridElement(grid, ArrowCountPerCategory["6"], row, 4);
+        addGridElement(grid, ArrowCountPerCategory["4"] + ")", row++, 5);
+    }
+    for (let i = self.persons.length - 1; i >= 0; i--) {
+        let headline2 = addGridElement(grid, self.persons[i].name, row);
+        headline2.style.marginTop = "8px";
+        headline2.style.fontWeight = "bold";
+    }
+    row++;
+    for (let j = 0; j < self.numberOfTargets; j++) {
+        for (let i = self.persons.length - 1; i >= 0; i--) {
+            addGridElement(grid, self.persons[i].pointsArray[j], row);
+        }
+        row++;
+    }
+    roundDetailsDialogContent.appendChild(grid);
+    showDialog(roundDialogDetails);
+    roundDetailsDialogButton.addEventListener("click", function () {
+        hideDialog(roundDialogDetails);
+    });
+}
+
+function addGridElement(parent, content, row, column, rowEnd, columnEnd) {
+    let gridElement = document.createElement("div");
+    gridElement.innerText = content;
+    if (row != null) gridElement.style.gridRowStart = row;
+    if (column != null) gridElement.style.gridColumnStart = column;
+    if (rowEnd != null) gridElement.style.gridRowEnd = rowEnd;
+    if (columnEnd != null) gridElement.style.gridColumnEnd = columnEnd;
+    parent.appendChild(gridElement);
+    return gridElement;
+}
+
+function getArrowCountPerCategory(person) {
+    let pointsPerCategory = {}
+    for (let i = 0; i < person.pointsArray.length; i++) {
+        let pointAmount = pointsPerCategory[person.pointsArray[i]];
+        if (pointAmount) pointsPerCategory[person.pointsArray[i]]++;
+        else pointsPerCategory[person.pointsArray[i]] = 1;
+    }
+    for (let i = 4; i < 21; i += 2) {
+        if (pointsPerCategory[i] == null) pointsPerCategory[i] = 0;
+    }
+    return pointsPerCategory;
 }

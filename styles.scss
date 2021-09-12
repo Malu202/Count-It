@@ -429,3 +429,22 @@ main {
 #statisticsContainer {
     padding: 8px;
 }
+
+.mdc-dialog__content {
+    display: flex;
+    flex-direction: column;
+}
+
+#roundDetailsDialogButton {
+    margin-right: 32px;
+    margin-bottom: 16px;
+}
+
+#roundDetailsDialogContent>.grid {
+    column-gap: 0px;
+    row-gap: 0px;
+}
+
+#roundDetailsDialogContent>.grid>div {
+    justify-self: center;
+}
