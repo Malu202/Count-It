@@ -9,8 +9,8 @@ self.addEventListener('fetch', event => {
         console.log("Sw checkt was.")
         serveShareTarget(event);
     } else {
-        evt.respondWith(fromCache(evt.request));
-        evt.waitUntil(update(evt.request));
+        event.respondWith(fromCache(event.request));
+        event.waitUntil(update(event.request));
     }
 });
 
