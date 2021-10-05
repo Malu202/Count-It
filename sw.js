@@ -1,3 +1,5 @@
+var CACHE = 'cache-and-update';
+
 self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
     // If this is an incoming POST request for the
@@ -6,14 +8,9 @@ self.addEventListener('fetch', event => {
         url.pathname === '/Count-It/share-target') {
         console.log("Sw checkt was.")
         serveShareTarget(event);
-        // event.respondWith((async () => {
-        //     const formData = await event.request.formData();
-        //     const link = formData.get('link') || '';
-        //     // const responseUrl = await saveBookmark(link);
-        //     serveShareTarget(event);
-        //     // return Response.redirect(responseUrl, 303);
-        //     return;
-        // })());
+    } else {
+        evt.respondWith(fromCache(evt.request));
+        evt.waitUntil(update(evt.request));
     }
 });
 
@@ -32,11 +29,47 @@ function serveShareTarget(event) {
 
             const client = await self.clients.get(event.resultingClientId);
             const data = await dataPromise;
-            // const file = data.get('json');
             console.log("sw:")
             console.log(data)
             const file = data.get('json');
             client.postMessage({ file, action: 'load-image' });
         })(),
     );
+}
+
+
+self.addEventListener('install', function (evt) {
+    console.log('The service worker is being installed.');
+    evt.waitUntil(precache());
+});
+
+
+function precache() {
+    return caches.open(CACHE).then(function (cache) {
+        return cache.addAll([
+            './chart.ios.min.js',
+            './history.js',
+            './index.html',
+            './index.js',
+            './menu.js',
+            './person.js',
+            './round.js',
+            './statistics.js',
+            './styles.css'
+        ]);
+    });
+}
+function fromCache(request) {
+    return caches.open(CACHE).then(function (cache) {
+        return cache.match(request).then(function (matching) {
+            return matching || Promise.reject('no-match');
+        });
+    });
+}
+function update(request) {
+    return caches.open(CACHE).then(function (cache) {
+        return fetch(request).then(function (response) {
+            return cache.put(request, response);
+        });
+    });
 }
