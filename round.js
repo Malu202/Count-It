@@ -313,6 +313,7 @@ function convert3dSkillBoard(jsonExport) {
         let date = (new Date(jsonExport.eventdate)).toDateString();
         let location = jsonExport.place.replace(/\d+/g, '').trim();
         output += date + ": " + location + "\n";
+        let maxTargetAmount = 0;
         for (let i = 0; i < jsonExport.players.length; i++) {
             output += jsonExport.players[i].name;
             if (i < jsonExport.players.length - 1) output += ", ";
@@ -320,7 +321,7 @@ function convert3dSkillBoard(jsonExport) {
         output += "\n";
         for (let j = 0; j < jsonExport.target.length; j++) {
             for (let i = 0; i < jsonExport.players.length; i++) {
-                if (jsonExport.players[i].eventresult[j].resulttype == "N") {
+                if (jsonExport.players[i].eventresult[j] && jsonExport.players[i].eventresult[j].resulttype == "N") {
                     output += jsonExport.players[i].eventresult[j].points;
                 } else {
                     output += "-";
